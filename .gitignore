@@ -1,0 +1,11 @@
+.idea
+
+**/.idea/*
+**/*.iml
+**/*.ipr
+**/*.iws
+**/*.ids
+**/target/*
+**/src/main/resources/application.properties
+
+
