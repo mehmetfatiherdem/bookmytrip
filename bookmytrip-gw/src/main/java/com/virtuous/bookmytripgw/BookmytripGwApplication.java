@@ -1,4 +1,4 @@
-package com.virtuous.bookmytripservice;
+package com.virtuous.bookmytripgw;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class BookmytripServiceApplication {
+public class BookmytripGwApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BookmytripServiceApplication.class, args);
+		SpringApplication.run(BookmytripGwApplication.class, args);
 	}
 
 }

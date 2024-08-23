@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: bookmytrip-gw
+  cloud:
+    gateway:
+      routes:
+        - id: bookmytrip-service
+          uri: lb://BOOKMYTRIP-SERVICE
+          predicates:
+            - Path=/api/v1/admin/bus-terminal/**
+
+server:
+  port: 9090
