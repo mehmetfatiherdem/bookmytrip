@@ -18,8 +18,8 @@ public class BusTerminalConverter {
                 .build();
     }
 
-    public static List<BusTerminalResponse> toResponse(List<BusTerminal> busTerminal) {
-        return busTerminal
+    public static List<BusTerminalResponse> toResponse(List<BusTerminal> busTerminals) {
+        return busTerminals
                 .stream()
                 .map(BusTerminalConverter::toResponse)
                 .toList();
