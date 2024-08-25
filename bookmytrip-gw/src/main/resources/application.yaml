@@ -8,6 +8,10 @@ spring:
           uri: lb://BOOKMYTRIP-SERVICE
           predicates:
             - Path=/api/v1/admin/tickets/**
+        - id: bookmytrip-user-service
+          uri: lb://BOOKMYTRIP-USER-SERVICE
+          predicates:
+            - Path=/api/v1/public/auth/**,/api/v1/admin/users/**,/api/v1/account/profile/**
 
 server:
   port: 9090
