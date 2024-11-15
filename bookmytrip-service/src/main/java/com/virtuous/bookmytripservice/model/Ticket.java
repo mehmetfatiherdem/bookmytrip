@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,13 +14,14 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
-@Table(name="ticket")
+@Table(name="tickets")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Ticket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ticket_id")
+    private UUID id;
 
     @Column(name = "departure", nullable = false)
     private String departure;
@@ -33,7 +35,7 @@ public class Ticket {
     @Column(name = "arrival_time", nullable = false)
     private LocalDateTime arrivalTime;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "ticket_price", nullable = false)
     private BigDecimal price;
 
 

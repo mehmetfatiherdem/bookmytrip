@@ -6,7 +6,7 @@ import com.virtuous.bookmytripuserservice.dto.response.RoleResponse;
 import com.virtuous.bookmytripuserservice.exception.BookMyTripException;
 import com.virtuous.bookmytripuserservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripuserservice.model.Role;
-import com.virtuous.bookmytripuserservice.model.enums.RoleType;
+import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import com.virtuous.bookmytripuserservice.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class RoleService {
 
     public RoleResponse createRole(RoleSaveRequest request) {
         Role role = new Role();
-        role.setName(RoleType.valueOf(request.getName()));
+        role.setName(RoleName.valueOf(request.getName()));
 
         roleRepository.save(role);
 
@@ -34,8 +34,8 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
-    public Role findRoleByRoleType(RoleType roleType) {
-        Optional<Role> role = roleRepository.findRoleByName(roleType);
+    public Role findRoleByRoleType(RoleName roleName) {
+        Optional<Role> role = roleRepository.findRoleByName(roleName);
 
         if (role.isEmpty()) {
             throw new BookMyTripException(ExceptionMessages.ROLE_NOT_FOUND);

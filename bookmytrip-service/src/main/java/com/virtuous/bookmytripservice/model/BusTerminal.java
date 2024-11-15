@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,20 +12,21 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "bus_terminal")
+@Table(name = "bus_terminals")
 public class BusTerminal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "bus_terminal_id")
+    private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "bus_terminal_name", nullable = false)
     private String name;
 
-    @Column(name = "city", nullable = false)
+    @Column(name = "bus_terminal_city", nullable = false)
     private String city;
 
-    @Column(name = "country", nullable = false)
+    @Column(name = "bus_terminal_country", nullable = false)
     private String country;
 
     @OneToMany(mappedBy = "departureBusTerminal")

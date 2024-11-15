@@ -5,7 +5,7 @@ import com.virtuous.bookmytripservice.dto.request.PlaneSeatSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneSeatResponse;
 import com.virtuous.bookmytripservice.model.PlaneSeat;
 import com.virtuous.bookmytripservice.model.enums.Letter;
-import com.virtuous.bookmytripservice.repository.AdminPlaneSeatRepository;
+import com.virtuous.bookmytripservice.repository.PlaneSeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminPlaneSeatService {
 
-    private final AdminPlaneSeatRepository adminPlaneSeatRepository;
+    private final PlaneSeatRepository planeSeatRepository;
 
     public PlaneSeatResponse createPlaneSeat(PlaneSeatSaveRequest request) {
         PlaneSeat planeSeat = new PlaneSeat();
         planeSeat.setNumber(request.getNumber());
         planeSeat.setLetter(Letter.valueOf(request.getLetter()));
 
-        adminPlaneSeatRepository.save(planeSeat);
+        planeSeatRepository.save(planeSeat);
 
         return PlaneSeatConverter.toResponse(planeSeat);
     }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BookMyTripException.class)
-    public GenericResponse handleBlogHubException(BookMyTripException bookMyTripException){
+    public GenericResponse handleBookMyTripException(BookMyTripException bookMyTripException){
         return GenericResponse.failed(bookMyTripException.getMessage());
     }
 }

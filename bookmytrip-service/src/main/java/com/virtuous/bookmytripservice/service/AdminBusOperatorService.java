@@ -6,33 +6,33 @@ import com.virtuous.bookmytripservice.dto.response.BusOperatorResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
 import com.virtuous.bookmytripservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripservice.model.BusOperator;
-import com.virtuous.bookmytripservice.model.BusTerminal;
-import com.virtuous.bookmytripservice.repository.AdminBusOperatorRepository;
+import com.virtuous.bookmytripservice.repository.BusOperatorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AdminBusOperatorService {
 
-    private final AdminBusOperatorRepository adminBusOperatorRepository;
+    private final BusOperatorRepository busOperatorRepository;
 
     public BusOperatorResponse createBusOperator(BusOperatorSaveRequest request) {
         BusOperator busOperator = new BusOperator();
         busOperator.setName(request.getName());
 
-        adminBusOperatorRepository.save(busOperator);
+        busOperatorRepository.save(busOperator);
 
         return BusOperatorConverter.toResponse(busOperator);
     }
 
-    public BusOperator findBusOperatorById(Long id) {
+    public BusOperator findBusOperatorById(UUID id) {
 
-        Optional<BusOperator> busOperator = adminBusOperatorRepository.findById(id);
+        Optional<BusOperator> busOperator = busOperatorRepository.findById(id);
 
         if (busOperator.isEmpty()) {
             throw new BookMyTripException(ExceptionMessages.BUS_OPERATOR_NOT_FOUND);

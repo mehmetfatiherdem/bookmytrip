@@ -11,9 +11,10 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@Table(name = "bus_tickets")
 public class BusTicket extends Ticket{
 
-    @Column(name = "trip_number", nullable = false)
+    @Column(name = "bus_ticket_trip_number", nullable = false)
     private String tripNumber;
 
     @ManyToOne
@@ -34,7 +35,7 @@ public class BusTicket extends Ticket{
 
     @ManyToMany
     @JoinTable(
-            name = "taken_bus_seat",
+            name = "taken_bus_seats",
             joinColumns = @JoinColumn(name = "bus_ticket_id"),
             inverseJoinColumns = @JoinColumn(name = "bus_seat_id"))
     private Set<BusSeat> takenBusSeats;

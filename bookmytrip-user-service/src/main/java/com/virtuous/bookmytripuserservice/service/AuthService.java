@@ -6,7 +6,7 @@ import com.virtuous.bookmytripuserservice.dto.response.UserResponse;
 import com.virtuous.bookmytripuserservice.exception.BookMyTripException;
 import com.virtuous.bookmytripuserservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripuserservice.model.User;
-import com.virtuous.bookmytripuserservice.model.enums.RoleType;
+import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import com.virtuous.bookmytripuserservice.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class AuthService {
 
         request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 
-        return userService.createUser(request, RoleType.USER);
+        return userService.createUser(request, RoleName.USER);
 
     }
 

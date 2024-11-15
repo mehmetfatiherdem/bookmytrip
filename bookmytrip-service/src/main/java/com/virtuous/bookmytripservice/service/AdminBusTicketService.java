@@ -3,9 +3,8 @@ package com.virtuous.bookmytripservice.service;
 import com.virtuous.bookmytripservice.converter.BusTicketConverter;
 import com.virtuous.bookmytripservice.dto.request.BusTicketSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTicketResponse;
-import com.virtuous.bookmytripservice.model.Bus;
 import com.virtuous.bookmytripservice.model.BusTicket;
-import com.virtuous.bookmytripservice.repository.AdminBusTicketRepository;
+import com.virtuous.bookmytripservice.repository.BusTicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminBusTicketService {
 
-    private final AdminBusTicketRepository adminBusTicketRepository;
+    private final BusTicketRepository busTicketRepository;
 
     private final AdminBusTerminalService adminBusTerminalService;
     private final AdminBusOperatorService adminBusOperatorService;
@@ -42,7 +41,7 @@ public class AdminBusTicketService {
         busTicket.setBusOperator(busOperator);
         busTicket.setBus(bus);
 
-        adminBusTicketRepository.save(busTicket);
+        busTicketRepository.save(busTicket);
 
         return BusTicketConverter.toResponse(busTicket);
 
@@ -50,7 +49,7 @@ public class AdminBusTicketService {
 
     public List<BusTicketResponse> getAllBusTickets() {
 
-        var busTickets = adminBusTicketRepository.findAll();
+        var busTickets = busTicketRepository.findAll();
 
         return BusTicketConverter.toResponse(busTickets);
     }

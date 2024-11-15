@@ -7,7 +7,7 @@ import com.virtuous.bookmytripuserservice.exception.BookMyTripException;
 import com.virtuous.bookmytripuserservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripuserservice.model.Role;
 import com.virtuous.bookmytripuserservice.model.User;
-import com.virtuous.bookmytripuserservice.model.enums.RoleType;
+import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import com.virtuous.bookmytripuserservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
-    public UserResponse createUser(UserSaveRequest request, RoleType roleType) {
+    public UserResponse createUser(UserSaveRequest request, RoleName roleName) {
         User user = new User();
         user.setName(request.getName());
         user.setLastName(request.getLastName());
@@ -32,7 +32,7 @@ public class UserService {
         user.setPassword(request.getPassword());
         user.setPhoneNumber(request.getPhoneNumber());
 
-        Role role = roleService.findRoleByRoleType(roleType);
+        Role role = roleService.findRoleByRoleType(roleName);
 
         user.getRoles().add(role);
 

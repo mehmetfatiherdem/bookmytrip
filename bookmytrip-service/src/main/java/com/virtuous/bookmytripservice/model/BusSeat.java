@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,19 +12,20 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "bus_seat")
+@Table(name = "bus_seats")
 public class BusSeat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "bus_seat_id")
+    private UUID id;
 
-    @Column(name = "number", nullable=false)
+    @Column(name = "bus_seat_number", nullable=false)
     private int number;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "existingBusSeats")
     private Set<Bus> buses;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "takenBusSeats")
     private Set<BusTicket> busTickets;
 }

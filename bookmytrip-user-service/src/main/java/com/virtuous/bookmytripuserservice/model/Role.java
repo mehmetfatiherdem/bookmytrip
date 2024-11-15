@@ -1,6 +1,6 @@
 package com.virtuous.bookmytripuserservice.model;
 
-import com.virtuous.bookmytripuserservice.model.enums.RoleType;
+import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +20,13 @@ import java.util.Set;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "role_id")
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
-    private RoleType name;
+    @Column(name = "role_name")
+    private RoleName name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();

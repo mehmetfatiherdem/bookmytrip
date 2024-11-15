@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,17 +12,18 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "plane")
+@Table(name = "planes")
 public class Plane {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "plane_id")
+    private UUID id;
 
-    @Column(name = "brand", nullable = false)
+    @Column(name = "plane_brand", nullable = false)
     private String brand;
 
-    @Column(name = "model", nullable = false)
+    @Column(name = "plane_model", nullable = false)
     private String model;
 
     @OneToMany(mappedBy="plane")
@@ -29,8 +31,8 @@ public class Plane {
 
     @ManyToMany
     @JoinTable(
-            name = "plane_seats_plane",
+            name = "existing_plane_seats",
             joinColumns = @JoinColumn(name = "plane_id"),
             inverseJoinColumns = @JoinColumn(name = "plane_seat_id"))
-    private Set<PlaneSeat> plainSeats;
+    private Set<PlaneSeat> planeSeats;
 }

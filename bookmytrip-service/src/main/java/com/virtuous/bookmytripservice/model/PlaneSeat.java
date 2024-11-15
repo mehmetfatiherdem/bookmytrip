@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,22 +14,24 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "plane_seat")
+@Table(name = "plane_seats")
 public class PlaneSeat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "plane_seat_id")
+    private UUID id;
 
-    @Column(name = "number", nullable=false)
+    @Column(name = "plane_seat_number", nullable=false)
     private int number;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "plane_seat_letter", nullable=false)
     private Letter letter;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "planeSeats")
     private Set<Plane> planes;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "takenPlaneSeats")
     private Set<PlaneTicket> planeTickets;
 }

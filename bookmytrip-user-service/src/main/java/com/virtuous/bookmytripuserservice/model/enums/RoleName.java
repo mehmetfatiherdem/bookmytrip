@@ -1,6 +1,6 @@
 package com.virtuous.bookmytripuserservice.model.enums;
 
-public enum RoleType {
+public enum RoleName {
     USER,
     ADMIN
 }

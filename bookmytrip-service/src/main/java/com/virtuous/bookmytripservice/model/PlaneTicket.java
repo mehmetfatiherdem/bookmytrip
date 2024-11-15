@@ -11,6 +11,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@Table(name = "plane_tickets")
 public class PlaneTicket extends Ticket{
 
     @Column(name = "flight_number", nullable = false)
@@ -34,7 +35,7 @@ public class PlaneTicket extends Ticket{
 
     @ManyToMany
     @JoinTable(
-            name = "taken_plane_seat",
+            name = "taken_plane_seats",
             joinColumns = @JoinColumn(name = "plane_ticket_id"),
             inverseJoinColumns = @JoinColumn(name = "plane_seat_id"))
     private Set<PlaneSeat> takenPlaneSeats;

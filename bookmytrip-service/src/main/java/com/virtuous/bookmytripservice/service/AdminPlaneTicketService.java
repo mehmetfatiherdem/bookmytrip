@@ -4,7 +4,7 @@ import com.virtuous.bookmytripservice.converter.PlaneTicketConverter;
 import com.virtuous.bookmytripservice.dto.request.PlaneTicketSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneTicketResponse;
 import com.virtuous.bookmytripservice.model.PlaneTicket;
-import com.virtuous.bookmytripservice.repository.AdminPlaneTicketRepository;
+import com.virtuous.bookmytripservice.repository.PlaneTicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminPlaneTicketService {
 
-    private final AdminPlaneTicketRepository adminPlaneTicketRepository;
+    private final PlaneTicketRepository planeTicketRepository;
 
     private final AdminAirportService adminAirportService;
     private final AdminAirlineService adminAirlineService;
@@ -39,7 +39,7 @@ public class AdminPlaneTicketService {
         planeTicket.setAirline(airline);
         planeTicket.setPlane(plane);
 
-        adminPlaneTicketRepository.save(planeTicket);
+        planeTicketRepository.save(planeTicket);
 
         return PlaneTicketConverter.toResponse(planeTicket);
     }

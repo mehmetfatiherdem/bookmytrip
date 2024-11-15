@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,9 +20,9 @@ public class PlaneTicketSaveRequest {
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private BigDecimal price;
-    private Long departureAirportId;
-    private Long arrivalAirportId;
-    private Long airlineId;
-    private Long planeId;
+    private UUID departureAirportId;
+    private UUID arrivalAirportId;
+    private UUID airlineId;
+    private UUID planeId;
 
 }

@@ -6,19 +6,20 @@ import com.virtuous.bookmytripservice.dto.response.AirportResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
 import com.virtuous.bookmytripservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripservice.model.Airport;
-import com.virtuous.bookmytripservice.repository.AdminAirportRepository;
+import com.virtuous.bookmytripservice.repository.AirportRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AdminAirportService {
 
-    private final AdminAirportRepository adminAirportRepository;
+    private final AirportRepository airportRepository;
 
     public AirportResponse createAirport(AirportSaveRequest request) {
         Airport airport = new Airport();
@@ -27,13 +28,13 @@ public class AdminAirportService {
         airport.setCountry(request.getCountry());
         airport.setName(request.getName());
 
-        adminAirportRepository.save(airport);
+        airportRepository.save(airport);
 
         return AirportConverter.toResponse(airport);
     }
 
-    public Airport findAirportById(Long id) {
-        Optional<Airport> airport = adminAirportRepository.findById(id);
+    public Airport findAirportById(UUID id) {
+        Optional<Airport> airport = airportRepository.findById(id);
 
         if (airport.isEmpty()) {
             throw new BookMyTripException(ExceptionMessages.AIRPORT_NOT_FOUND);
