@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminPlaneSeatService {
+public class PlaneSeatService {
 
     private final PlaneSeatRepository planeSeatRepository;
 

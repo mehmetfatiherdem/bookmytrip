@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminBusOperatorService {
+public class BusOperatorService {
 
     private final BusOperatorRepository busOperatorRepository;
 

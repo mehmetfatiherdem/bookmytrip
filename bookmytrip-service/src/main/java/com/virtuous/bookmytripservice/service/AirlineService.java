@@ -17,9 +17,27 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminAirlineService {
+public class AirlineService {
 
     private final AirlineRepository airlineRepository;
+
+    public Airline getAirlineByCode(String code) {
+        Optional<Airline> airline = airlineRepository.findAirlineByCode(code);
+
+        if (airline.isEmpty()) {
+            throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);
+        }
+        return airline.get();
+    }
+
+    public Airline getAirlineById(UUID id) {
+        Optional<Airline> airline = airlineRepository.findById(id);
+
+        if (airline.isEmpty()) {
+            throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);
+        }
+        return airline.get();
+    }
 
     public AirlineResponse createAirline(AirlineSaveRequest request) {
         Airline airline = new Airline();
@@ -31,13 +49,4 @@ public class AdminAirlineService {
         return AirlineConverter.toResponse(airline);
     }
 
-    public Airline findAirlineById(UUID id) {
-        Optional<Airline> airline = airlineRepository.findById(id);
-
-        if (airline.isEmpty()) {
-            throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);
-        }
-
-        return airline.get();
-    }
 }

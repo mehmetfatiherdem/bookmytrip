@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminPlaneService {
+public class PlaneService {
 
     private final PlaneRepository planeRepository;
 

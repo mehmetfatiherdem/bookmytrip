@@ -14,20 +14,20 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminBusTicketService {
+public class BusTicketService {
 
     private final BusTicketRepository busTicketRepository;
 
-    private final AdminBusTerminalService adminBusTerminalService;
-    private final AdminBusOperatorService adminBusOperatorService;
-    private final AdminBusService adminBusService;
+    private final BusTerminalService busTerminalService;
+    private final BusOperatorService busOperatorService;
+    private final BusService busService;
 
     public BusTicketResponse createBusTicket(BusTicketSaveRequest request) {
 
-        var departureBusTerminal = adminBusTerminalService.findBusTerminalById(request.getDepartureBusTerminalId());
-        var arrivalBusTerminal = adminBusTerminalService.findBusTerminalById(request.getArrivalBusTerminalId());
-        var busOperator = adminBusOperatorService.findBusOperatorById(request.getBusOperatorId());
-        var bus = adminBusService.findBusById(request.getBusId());
+        var departureBusTerminal = busTerminalService.findBusTerminalById(request.getDepartureBusTerminalId());
+        var arrivalBusTerminal = busTerminalService.findBusTerminalById(request.getArrivalBusTerminalId());
+        var busOperator = busOperatorService.findBusOperatorById(request.getBusOperatorId());
+        var bus = busService.findBusById(request.getBusId());
 
         BusTicket busTicket = new BusTicket();
         busTicket.setTripNumber(request.getTripNumber());

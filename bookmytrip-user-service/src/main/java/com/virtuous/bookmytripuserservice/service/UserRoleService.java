@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminService {
+public class UserRoleService {
 
     private final RoleService roleService;
     private final UserService userService;

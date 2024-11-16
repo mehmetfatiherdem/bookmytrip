@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdminTicketService {
+public class TicketService {
 
     private final TicketRepository ticketRepository;
 
