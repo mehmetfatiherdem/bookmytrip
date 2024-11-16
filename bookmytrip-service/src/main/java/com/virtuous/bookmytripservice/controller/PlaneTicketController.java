@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -24,8 +25,8 @@ public class PlaneTicketController {
         return GenericResponse.success(planeTicketService.createPlaneTicket(request), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public GenericResponse<List<PlaneTicketResponse>> searchPlaneTickets(@RequestParam PlaneTicketSearchRequest planeTicketSearchRequest) {
-        return GenericResponse.success(planeTicketService.searchPlaneTickets(planeTicketSearchRequest), HttpStatus.OK);
+    @GetMapping("/departures/{departureAirportCode}/arrivals/{arrivalAirportCode}/dates/{date}")
+    public GenericResponse<List<PlaneTicketResponse>> searchPlaneTickets(@PathVariable String departureAirportCode, @PathVariable String arrivalAirportCode, @PathVariable LocalDate date) {
+        return GenericResponse.success(planeTicketService.searchPlaneTickets(departureAirportCode, arrivalAirportCode, date), HttpStatus.OK);
     }
 }

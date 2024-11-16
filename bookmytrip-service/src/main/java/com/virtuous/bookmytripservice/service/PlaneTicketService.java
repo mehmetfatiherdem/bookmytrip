@@ -2,7 +2,6 @@ package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.PlaneTicketConverter;
 import com.virtuous.bookmytripservice.dto.request.PlaneTicketSaveRequest;
-import com.virtuous.bookmytripservice.dto.request.PlaneTicketSearchRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneTicketResponse;
 import com.virtuous.bookmytripservice.model.Airline;
 import com.virtuous.bookmytripservice.model.Airport;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -53,12 +53,11 @@ public class PlaneTicketService {
         return PlaneTicketConverter.toResponse(planeTicketRepository.findAll());
     }
 
-    public List<PlaneTicketResponse> searchPlaneTickets(PlaneTicketSearchRequest planeTicketSearchRequest) {
+    public List<PlaneTicketResponse> searchPlaneTickets(String departureAirportCode, String arrivalAirportCode, LocalDate date) {
 
-        Airline airline = airlineService.getAirlineByCode(planeTicketSearchRequest.getAirlineCode());
-        Airport departureAirport = airportService.getAirportByCode(planeTicketSearchRequest.getDepartureAirportCode());
-        Airport arrivalAirport = airportService.getAirportByCode(planeTicketSearchRequest.getArrivalAirportCode());
+        Airport departureAirport = airportService.getAirportByCode(departureAirportCode);
+        Airport arrivalAirport = airportService.getAirportByCode(arrivalAirportCode);
 
-        return PlaneTicketConverter.toResponse(planeTicketRepository.findPlaneTicketsByAirlineAndDepartureAirportAndArrivalAirportAndDepartureTime(airline, departureAirport, arrivalAirport, planeTicketSearchRequest.getDepartureTime()));
+        return PlaneTicketConverter.toResponse(planeTicketRepository.findPlaneTicketsByAndDepartureAirportAndArrivalAirportAndDepartureTimeDate(departureAirport, arrivalAirport, date));
     }
 }
