@@ -3,7 +3,6 @@ package com.virtuous.bookmytripservice.service;
 import com.virtuous.bookmytripservice.converter.PlaneTicketConverter;
 import com.virtuous.bookmytripservice.dto.request.PlaneTicketSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneTicketResponse;
-import com.virtuous.bookmytripservice.model.Airline;
 import com.virtuous.bookmytripservice.model.Airport;
 import com.virtuous.bookmytripservice.model.PlaneTicket;
 import com.virtuous.bookmytripservice.repository.PlaneTicketRepository;
@@ -27,9 +26,9 @@ public class PlaneTicketService {
 
     public PlaneTicketResponse createPlaneTicket(PlaneTicketSaveRequest request) {
 
-        var departureAirport = airportService.getAirportByCode(request.getDepartureAirportCode());
-        var arrivalAirport = airportService.getAirportByCode(request.getDepartureAirportCode());
-        var airline = airlineService.getAirlineByCode(request.getAirlineCode());
+        var departureAirport = airportService.getAirportByCode(request.getDepartureAirportCode().toUpperCase());
+        var arrivalAirport = airportService.getAirportByCode(request.getArrivalAirportCode().toUpperCase());
+        var airline = airlineService.getAirlineByCode(request.getAirlineCode().toUpperCase());
         var plane = planeService.findPlaneById(request.getPlaneId());
 
         PlaneTicket planeTicket = new PlaneTicket();
@@ -55,8 +54,8 @@ public class PlaneTicketService {
 
     public List<PlaneTicketResponse> searchPlaneTickets(String departureAirportCode, String arrivalAirportCode, LocalDate date) {
 
-        Airport departureAirport = airportService.getAirportByCode(departureAirportCode);
-        Airport arrivalAirport = airportService.getAirportByCode(arrivalAirportCode);
+        Airport departureAirport = airportService.getAirportByCode(departureAirportCode.toUpperCase());
+        Airport arrivalAirport = airportService.getAirportByCode(arrivalAirportCode.toUpperCase());
 
         return PlaneTicketConverter.toResponse(planeTicketRepository.findPlaneTicketsByAndDepartureAirportAndArrivalAirportAndDepartureTimeDate(departureAirport, arrivalAirport, date));
     }

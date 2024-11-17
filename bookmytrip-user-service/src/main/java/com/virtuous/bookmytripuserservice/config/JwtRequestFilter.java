@@ -29,7 +29,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getServletPath().contains("/api/v1/public/auth")) {
+        if (request.getServletPath().contains("/api/v1/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -52,6 +52,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities().stream().collect(Collectors.toList()));
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                System.out.println("authentication for the user " + email + ": " + userDetails.getAuthorities().stream().collect(Collectors.toList()));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
