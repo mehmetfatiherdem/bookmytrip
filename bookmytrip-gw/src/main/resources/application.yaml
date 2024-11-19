@@ -8,10 +8,15 @@ spring:
           uri: lb://BOOKMYTRIP-SERVICE
           predicates:
             - Path=/api/v1/airlines/**,/api/v1/airports/**,/api/v1/buses/**,/api/v1/bus-operators/**,/api/v1/bus-seats/**,/api/v1/bus-terminals/**,/api/v1/bus-tickets/**,/api/v1/planes/**,/api/v1/plane-seats/**,/api/v1/plane-tickets/**
+          filters:
+            - AuthenticationFilter
+
         - id: bookmytrip-user-service
           uri: lb://BOOKMYTRIP-USER-SERVICE
           predicates:
             - Path=/api/v1/auth/**,/api/v1/users/**,/api/v1/roles/**,/api/v1/user-roles/**,/api/v1/account/**
+          filters:
+            - AuthenticationFilter
 
 server:
   port: 9090
