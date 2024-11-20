@@ -38,33 +38,17 @@ public class JwtUtil {
         Claims claims = extractAllClaims(token);
         long tokenIssuedAt = claims.getIssuedAt().getTime();
 
-        // Fetch the revokedAt value from Redis
         String revokedAt = redisTemplate.opsForValue().get("user:" + userId + ":revokedAt");
 
-        // Log the revokedAt for debugging (remove this in production)
-        if (revokedAt != null) {
-            System.out.println("########################## token: " + token + " revokedAt: " + revokedAt); // TODO: remove this
-        }
-
-        // Check if the token is revoked
         if (revokedAt == null) {
-            return false; // Token is not revoked because no revocation time exists
+            return false;
         }
 
-        // If the token was issued before the revocation time, it is revoked
         return tokenIssuedAt < Long.parseLong(revokedAt);
     }
 
     public boolean isTokenRevoked(String token) {
-        if (redisTemplate.opsForValue().get("token:" + token) != null) {
-            System.out.println("************** is token revoked: yes, token: " + redisTemplate.opsForValue().get(token));
-            return true;
-        }
-
-        return false;
-
-        // TODO: use the one liner below after testing
-        // return redisTemplate.opsForValue().get(token) != null
+        return redisTemplate.opsForValue().get("token:" + token) != null;
     }
 
     public boolean isTokenExpired(String token) {

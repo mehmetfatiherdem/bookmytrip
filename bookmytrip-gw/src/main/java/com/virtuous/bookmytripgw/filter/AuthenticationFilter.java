@@ -18,8 +18,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Autowired
     private JwtUtil jwtUtil;
 
-
-
     private final List<String> adminOnlyRoutes = List.of(
             "/api/v1/roles/**",
             "/api/v1/user-roles/**"
@@ -51,7 +49,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     return exchange.getResponse().setComplete();
 
                 }
-
 
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0).trim();
 

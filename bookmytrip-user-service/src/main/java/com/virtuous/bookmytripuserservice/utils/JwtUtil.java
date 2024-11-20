@@ -6,7 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,9 @@ public class JwtUtil {
 
     public final String SECRET;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
         this.SECRET = secret;
     }
@@ -33,6 +38,28 @@ public class JwtUtil {
         }
 
         return authHeader.substring(7);
+    }
+
+    public String extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", String.class);
+    }
+
+    public boolean isUserRevoked(String token, String userId) {
+        Claims claims = extractAllClaims(token);
+        long tokenIssuedAt = claims.getIssuedAt().getTime();
+
+        String revokedAt = redisTemplate.opsForValue().get("user:" + userId + ":revokedAt");
+
+        if (revokedAt == null) {
+            return false;
+        }
+
+        return tokenIssuedAt < Long.parseLong(revokedAt);
+    }
+
+    public boolean isTokenRevoked(String token) {
+        return redisTemplate.opsForValue().get("token:" + token) != null;
     }
 
     public String extractEmail(String token) {
