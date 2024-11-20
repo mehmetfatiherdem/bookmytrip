@@ -18,6 +18,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Autowired
     private JwtUtil jwtUtil;
 
+
+
     private final List<String> adminOnlyRoutes = List.of(
             "/api/v1/roles/**",
             "/api/v1/user-roles/**"
@@ -42,7 +44,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             HttpMethod method = exchange.getRequest().getMethod();
 
             // validator.isSecured.test(request)
-            if (adminOnlyRoutes.stream().anyMatch(path::startsWith) || (globalRoutes.stream().noneMatch(path::startsWith) && method != HttpMethod.GET)) {
+            if (path.startsWith("/api/v1/auth/logout") || adminOnlyRoutes.stream().anyMatch(path::startsWith) || (globalRoutes.stream().noneMatch(path::startsWith) && method != HttpMethod.GET)) {
 
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -56,6 +58,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 if (authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
                 }
+
+                var userId = jwtUtil.extractUserId(authHeader);
+
+                // Check if token is revoked
+                if (jwtUtil.isTokenRevoked(authHeader) || jwtUtil.isUserRevoked(authHeader, userId)) {
+                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return exchange.getResponse().setComplete();
+                }
+
 
                 if (jwtUtil.isTokenExpired(authHeader)) {
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);

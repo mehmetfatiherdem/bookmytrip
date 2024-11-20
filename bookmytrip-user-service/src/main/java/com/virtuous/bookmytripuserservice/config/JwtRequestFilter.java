@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +26,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailService userDetailService;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getServletPath().contains("/api/v1/auth")) {
+        if (request.getServletPath().startsWith("/api/v1/auth/login") || request.getServletPath().startsWith("/api/v1/auth/register")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -44,6 +46,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
         jwtToken = authorizationHeader.substring(7);
+
+        // Check if token is revoked
+        if (redisTemplate.opsForValue().get("token:" + jwtToken) != null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token is revoked");
+            return;
+        }
+
         email = jwtUtil.extractEmail(jwtToken);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -53,7 +63,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities().stream().collect(Collectors.toList()));
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                System.out.println("authentication for the user " + email + ": " + userDetails.getAuthorities().stream().collect(Collectors.toList()));
+                //System.out.println("authentication for the user " + email + ": " + userDetails.getAuthorities().stream().collect(Collectors.toList()));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }

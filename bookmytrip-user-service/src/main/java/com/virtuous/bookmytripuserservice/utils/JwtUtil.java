@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripuserservice.utils;
 
+import com.virtuous.bookmytripuserservice.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,6 +25,14 @@ public class JwtUtil {
 
     public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
         this.SECRET = secret;
+    }
+
+    public String extractToken(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format.");
+        }
+
+        return authHeader.substring(7);
     }
 
     public String extractEmail(String token) {
@@ -57,12 +66,14 @@ public class JwtUtil {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("roles", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
+
+        claims.put("userId", userDetails.getId());
 
         return Jwts.builder()
                 .setClaims(claims)

@@ -40,7 +40,7 @@ public class JwtUtil {
     // Extract roles from the token
     public List<String> extractRoles(String token) {
         Claims claims = extractClaims(token);
-        return claims.get("roles", List.class);  // Assuming roles are stored as a List in the JWT
+        return claims.get("roles", List.class);
     }
 
     // Extract the subject (username) from the token
