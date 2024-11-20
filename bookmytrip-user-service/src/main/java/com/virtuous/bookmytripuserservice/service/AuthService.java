@@ -10,10 +10,13 @@ import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import com.virtuous.bookmytripuserservice.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public UserResponse register(UserSaveRequest request) {
 
@@ -47,4 +51,22 @@ public class AuthService {
         return jwtUtil.generateToken(user);
 
     }
+
+    public String logout(String authHeader) {
+        String token = jwtUtil.extractToken(authHeader);
+
+        // Add the token to Redis blacklist
+        try {
+
+            long expiration = jwtUtil.extractExpiration(token).getTime();
+            redisTemplate.opsForValue().set("token:" + token, "revoked", expiration, TimeUnit.MILLISECONDS);
+            return "Logged out successfully";
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid token: Unable to extract expiration.", e);
+        }
+
+
+    }
+
 }

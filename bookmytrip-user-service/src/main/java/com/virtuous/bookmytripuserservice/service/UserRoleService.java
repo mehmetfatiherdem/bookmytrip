@@ -8,6 +8,7 @@ import com.virtuous.bookmytripuserservice.model.User;
 import com.virtuous.bookmytripuserservice.model.enums.RoleName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,7 @@ public class UserRoleService {
 
     private final RoleService roleService;
     private final UserService userService;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public UserRoleResponse addRoleToUser(UserRoleSaveRequest request) {
 
@@ -25,6 +27,9 @@ public class UserRoleService {
 
         user.getRoles().add(role);
         role.getUsers().add(user);
+
+        // Invalidate all tokens for this user
+        redisTemplate.opsForValue().set("user:" + user.getId() + ":revokedAt", String.valueOf(System.currentTimeMillis()));
 
         User updatedUser = userService.save(user);
         roleService.save(role);

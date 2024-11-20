@@ -1,7 +1,9 @@
 package com.virtuous.bookmytripservice.utils;
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,24 +15,49 @@ public class JwtUtil {
 
     public final String SECRET;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
         this.SECRET = secret;
     }
 
-    // Validate the token
+
     public boolean isTokenValid(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(SECRET)
-                    .parseClaimsJws(token);  // This will throw an exception if the token is invalid
+                    .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            return false; // Invalid token
+            return false;
         }
     }
 
-    // Extract the claims (including roles) from the token
-    public Claims extractClaims(String token) {
+    public String extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", String.class);
+    }
+
+    public boolean isUserRevoked(String token, String userId) {
+        Claims claims = extractAllClaims(token);
+        long tokenIssuedAt = claims.getIssuedAt().getTime();
+
+        String revokedAt = redisTemplate.opsForValue().get("user:" + userId + ":revokedAt");
+
+        if (revokedAt == null) {
+            return false;
+        }
+
+        return tokenIssuedAt < Long.parseLong(revokedAt);
+    }
+
+    public boolean isTokenRevoked(String token) {
+        return redisTemplate.opsForValue().get("token:" + token) != null;
+    }
+
+
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token)
@@ -39,19 +66,19 @@ public class JwtUtil {
 
     // Extract roles from the token
     public List<String> extractRoles(String token) {
-        Claims claims = extractClaims(token);
-        return claims.get("roles", List.class);  // Assuming roles are stored as a List in the JWT
+        Claims claims = extractAllClaims(token);
+        return claims.get("roles", List.class);
     }
 
     // Extract the subject (username) from the token
     public String extractSubject(String token) {
-        Claims claims = extractClaims(token);
+        Claims claims = extractAllClaims(token);
         return claims.getSubject(); // Extract the username (subject)
     }
 
     // Check if the token is expired
     public boolean isTokenExpired(String token) {
-        Claims claims = extractClaims(token);
+        Claims claims = extractAllClaims(token);
         return claims.getExpiration().before(new Date());
     }
 
