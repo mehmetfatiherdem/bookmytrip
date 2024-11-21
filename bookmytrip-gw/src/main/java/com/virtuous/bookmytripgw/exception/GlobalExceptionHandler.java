@@ -1,7 +1,7 @@
-package com.virtuous.bookmytripuserservice.exception;
+package com.virtuous.bookmytripgw.exception;
 
-import com.virtuous.bookmytripuserservice.dto.response.GenericResponse;
-import com.virtuous.bookmytripuserservice.service.KafkaProducerService;
+import com.virtuous.bookmytripgw.dto.response.GenericResponse;
+import com.virtuous.bookmytripgw.service.KafkaProducerService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
