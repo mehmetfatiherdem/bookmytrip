@@ -23,6 +23,18 @@ services:
     ports:
       - "9092:9092"
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # Default RabbitMQ port
+      - "15672:15672" # Management console port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - my_network # Replace with your existing network or default bridge network
+
   mongodb:
     image: mongo:5.0
     container_name: mongodb
@@ -36,3 +48,7 @@ services:
 
 volumes:
   mongo-data:
+
+networks:
+  my_network:
+    driver: bridge

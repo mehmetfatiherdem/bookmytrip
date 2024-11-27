@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripuserservice.service;
 
+import com.virtuous.bookmytripuserservice.dto.notification.EmailMessage;
 import com.virtuous.bookmytripuserservice.dto.request.UserLoginRequest;
 import com.virtuous.bookmytripuserservice.dto.request.UserSaveRequest;
 import com.virtuous.bookmytripuserservice.dto.response.UserResponse;
@@ -7,6 +8,7 @@ import com.virtuous.bookmytripuserservice.exception.BookMyTripException;
 import com.virtuous.bookmytripuserservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripuserservice.model.User;
 import com.virtuous.bookmytripuserservice.model.enums.RoleName;
+import com.virtuous.bookmytripuserservice.producer.NotificationProducer;
 import com.virtuous.bookmytripuserservice.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RedisTemplate<String, String> redisTemplate;
+    private final NotificationProducer notificationProducer;
 
     public UserResponse register(UserSaveRequest request) {
 
@@ -39,7 +42,16 @@ public class AuthService {
 
         request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 
-        return userService.createUser(request, RoleName.USER);
+        UserResponse response = userService.createUser(request, RoleName.USER);
+
+        EmailMessage email = new EmailMessage();
+        email.setSubject("Bookmytrip Account Created");
+        email.setRecipient(request.getEmail());
+        email.setMessageBody("Hello, " + request.getName() + " welcome to the Bookmytrip!");
+
+        notificationProducer.sendMessage("notificationExchange", "notification.email", email);
+
+        return response;
 
     }
 
