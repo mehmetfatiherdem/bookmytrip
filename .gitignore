@@ -5,7 +5,10 @@
 **/*.ipr
 **/*.iws
 **/*.ids
+**/.mvn
 **/target/*
 **/src/main/resources/application.properties
+**/mvnw
+**/mvnw.cmd
 
 
