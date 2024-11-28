@@ -32,11 +32,11 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/bus-operators/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/bus-seats/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/bus-terminals/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/bus-tickets/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/bus-trips/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/planes/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/plane-seats/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/plane-tickets/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/tickets/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/flights/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/trips/**").permitAll()
 
 
                                 // only admin-level accessible endpoint-methods
@@ -70,10 +70,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/bus-terminals/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/bus-terminals/**").hasAuthority("ADMIN")
 
-                                .requestMatchers(HttpMethod.POST, "/api/v1/bus-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/bus-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/bus-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/bus-tickets/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/bus-trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/bus-trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/v1/bus-trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/bus-trips/**").hasAuthority("ADMIN")
 
                                 .requestMatchers(HttpMethod.POST, "/api/v1/planes/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/planes/**").hasAuthority("ADMIN")
@@ -85,15 +85,15 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/plane-seats/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/plane-seats/**").hasAuthority("ADMIN")
 
-                                .requestMatchers(HttpMethod.POST, "/api/v1/plane-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/plane-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/plane-tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/plane-tickets/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/flights/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/flights/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/v1/flights/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/flights/**").hasAuthority("ADMIN")
 
-                                .requestMatchers(HttpMethod.POST, "/api/v1/tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/tickets/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/tickets/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/v1/trips/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/trips/**").hasAuthority("ADMIN")
 
 
                                 //**********************************************************************

@@ -27,7 +27,7 @@ public class Airline {
     private String name;
 
     @OneToMany(mappedBy="airline")
-    private Set<PlaneTicket> planeTickets;
+    private Set<Flight> flights;
 
     @PrePersist
     @PreUpdate

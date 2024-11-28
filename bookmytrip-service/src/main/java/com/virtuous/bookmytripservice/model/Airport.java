@@ -33,10 +33,10 @@ public class Airport {
     private String country;
 
     @OneToMany(mappedBy = "departureAirport")
-    private Set<PlaneTicket> departurePlaneTickets;
+    private Set<Flight> departureFlights;
 
     @OneToMany(mappedBy = "arrivalAirport")
-    private Set<PlaneTicket> arrivalPlaneTickets;
+    private Set<Flight> arrivalFlights;
 
     @PrePersist
     @PreUpdate

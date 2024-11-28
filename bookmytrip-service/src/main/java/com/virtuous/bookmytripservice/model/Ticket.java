@@ -1,11 +1,11 @@
 package com.virtuous.bookmytripservice.model;
 
+import com.virtuous.bookmytripservice.model.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -23,20 +23,23 @@ public class Ticket {
     @Column(name = "ticket_id")
     private UUID id;
 
-    @Column(name = "departure", nullable = false)
-    private String departure;
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false)
+    private Trip trip;
 
-    @Column(name = "arrival", nullable = false)
-    private String arrival;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_status", nullable = false)
+    private TicketStatus status;
 
-    @Column(name = "departure_time", nullable = false)
-    private LocalDateTime departureTime;
-
-    @Column(name = "arrival_time", nullable = false)
-    private LocalDateTime arrivalTime;
-
-    @Column(name = "ticket_price", nullable = false)
+    @Column(name = "trip_price", nullable = false)
     private BigDecimal price;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "passenger_id", referencedColumnName = "passenger_id")
+    private Passenger passenger;
+
+    @Column (name = "userId", nullable = false)
+    private UUID userId;
 
 
     @PrePersist

@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BusTicketResponse implements Serializable {
+public class BusTripResponse implements Serializable {
 
     private String tripNumber;
     private String departure;
     private String arrival;
+    private String status;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private BigDecimal price;

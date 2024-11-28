@@ -30,8 +30,8 @@ public class BusTerminal {
     private String country;
 
     @OneToMany(mappedBy = "departureBusTerminal")
-    private Set<BusTicket> departureBusTickets;
+    private Set<BusTrip> departureBusTrips;
 
     @OneToMany(mappedBy = "arrivalBusTerminal")
-    private Set<BusTicket> arrivalBusTickets;
+    private Set<BusTrip> arrivalBusTrips;
 }

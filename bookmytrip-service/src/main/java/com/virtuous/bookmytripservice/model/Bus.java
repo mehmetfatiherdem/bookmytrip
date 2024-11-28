@@ -27,7 +27,7 @@ public class Bus {
     private String model;
 
     @OneToMany(mappedBy="bus")
-    private Set<BusTicket> busTickets;
+    private Set<BusTrip> busTrips;
 
     @ManyToMany
     @JoinTable(

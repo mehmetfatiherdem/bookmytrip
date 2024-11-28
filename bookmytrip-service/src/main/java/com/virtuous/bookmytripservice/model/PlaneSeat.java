@@ -2,6 +2,7 @@ package com.virtuous.bookmytripservice.model;
 
 
 import com.virtuous.bookmytripservice.model.enums.Letter;
+import com.virtuous.bookmytripservice.model.enums.PlaneSeatClass;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,9 +30,17 @@ public class PlaneSeat {
     @Column(name = "plane_seat_letter", nullable=false)
     private Letter letter;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "plane_seat_class", nullable = false)
+    private PlaneSeatClass planeSeatClass;
+
     @ManyToMany(mappedBy = "planeSeats")
     private Set<Plane> planes;
 
-    @ManyToMany(mappedBy = "takenPlaneSeats")
-    private Set<PlaneTicket> planeTickets;
+    @OneToMany(mappedBy = "planeSeat")
+    private Set<FlightSeatAvailability> flightSeatAvailabilities;
+
+    @OneToMany(mappedBy = "planeSeat")
+    private Set<FlightTicket> flightTickets;
+
 }

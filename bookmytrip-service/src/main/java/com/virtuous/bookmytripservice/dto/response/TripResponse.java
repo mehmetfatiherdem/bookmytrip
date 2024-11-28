@@ -3,7 +3,6 @@ package com.virtuous.bookmytripservice.dto.response;
 import lombok.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,15 +10,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PlaneTicketResponse implements Serializable {
-    private String flightNumber;
+public class TripResponse implements Serializable {
+    private String id;
     private String departure;
     private String arrival;
+    private String status;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-    private BigDecimal price;
-    private AirportResponse departureAirport;
-    private AirportResponse arrivalAirport;
-    private AirlineResponse airline;
-    private PlaneResponse plane;
 }

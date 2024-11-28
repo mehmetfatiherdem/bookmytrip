@@ -26,6 +26,9 @@ public class BusSeat {
     @ManyToMany(mappedBy = "existingBusSeats")
     private Set<Bus> buses;
 
-    @ManyToMany(mappedBy = "takenBusSeats")
+    @OneToMany(mappedBy = "busSeat")
     private Set<BusTicket> busTickets;
+
+    @OneToMany(mappedBy = "busSeat")
+    private Set<BusSeatAvailability> busSeatAvailabilities;
 }

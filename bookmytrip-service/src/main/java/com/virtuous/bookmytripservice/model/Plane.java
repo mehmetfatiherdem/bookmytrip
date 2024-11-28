@@ -27,7 +27,7 @@ public class Plane {
     private String model;
 
     @OneToMany(mappedBy="plane")
-    private Set<PlaneTicket> planeTickets;
+    private Set<Flight> flights;
 
     @ManyToMany
     @JoinTable(

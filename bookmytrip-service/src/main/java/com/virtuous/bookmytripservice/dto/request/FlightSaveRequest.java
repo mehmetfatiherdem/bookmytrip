@@ -13,16 +13,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BusTicketSaveRequest {
-
-    private String tripNumber;
+public class FlightSaveRequest {
+    private String flightNumber;
     private String departure;
     private String arrival;
+    private String status;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-    private BigDecimal price;
-    private UUID departureBusTerminalId;
-    private UUID arrivalBusTerminalId;
-    private UUID busOperatorId;
-    private UUID busId;
+    private String departureAirportCode;
+    private String arrivalAirportCode;
+    private String airlineCode;
+    private UUID planeId;
+
 }

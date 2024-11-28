@@ -24,5 +24,5 @@ public class BusOperator {
     private String name;
 
     @OneToMany(mappedBy = "busOperator")
-    private Set<BusTicket> busTickets;
+    private Set<BusTrip> busTrips;
 }
