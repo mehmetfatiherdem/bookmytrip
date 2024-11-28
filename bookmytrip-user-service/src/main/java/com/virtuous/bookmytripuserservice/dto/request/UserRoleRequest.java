@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRoleSaveRequest {
+public class UserRoleRequest {
 
     private String email;
     private String roleName;
