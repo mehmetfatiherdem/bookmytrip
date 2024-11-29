@@ -6,6 +6,7 @@ import com.virtuous.bookmytripservice.dto.response.BusTerminalResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
 import com.virtuous.bookmytripservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripservice.model.BusTerminal;
+import com.virtuous.bookmytripservice.model.enums.TimeZoneEnum;
 import com.virtuous.bookmytripservice.repository.BusTerminalRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class BusTerminalService {
         busTerminal.setName(request.getName());
         busTerminal.setCity(request.getCity());
         busTerminal.setCountry(request.getCountry());
+        busTerminal.setTimezone(TimeZoneEnum.fromString(request.getTimeZone()));
 
         busTerminalRepository.save(busTerminal);
 

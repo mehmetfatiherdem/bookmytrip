@@ -2,6 +2,7 @@ package com.virtuous.bookmytripuserservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
 @Setter
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+@SQLRestriction("deleted_at IS NULL")
+public class User extends Auditable implements UserDetails  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -5,6 +5,7 @@ import com.virtuous.bookmytripservice.dto.request.PlaneSeatSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneSeatResponse;
 import com.virtuous.bookmytripservice.model.PlaneSeat;
 import com.virtuous.bookmytripservice.model.enums.Letter;
+import com.virtuous.bookmytripservice.model.enums.PlaneSeatClass;
 import com.virtuous.bookmytripservice.repository.PlaneSeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class PlaneSeatService {
         PlaneSeat planeSeat = new PlaneSeat();
         planeSeat.setNumber(request.getNumber());
         planeSeat.setLetter(Letter.valueOf(request.getLetter()));
+        planeSeat.setPlaneSeatClass(PlaneSeatClass.valueOf(request.getPlaneSeatClass()));
 
         planeSeatRepository.save(planeSeat);
 

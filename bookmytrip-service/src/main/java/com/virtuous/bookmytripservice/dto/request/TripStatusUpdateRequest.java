@@ -9,11 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AirportSaveRequest {
-    private String code;
-    private String name;
-    private String city;
-    private String country;
-    private String timeZone;
-
+public class TripStatusUpdateRequest {
+    private String status;
 }

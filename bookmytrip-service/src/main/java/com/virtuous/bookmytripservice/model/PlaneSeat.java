@@ -2,8 +2,10 @@ package com.virtuous.bookmytripservice.model;
 
 
 import com.virtuous.bookmytripservice.model.enums.Letter;
+import com.virtuous.bookmytripservice.model.enums.PlaneSeatClass;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,7 +17,8 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "plane_seats")
-public class PlaneSeat {
+@SQLRestriction("deleted_at IS NULL")
+public class PlaneSeat extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,9 +32,17 @@ public class PlaneSeat {
     @Column(name = "plane_seat_letter", nullable=false)
     private Letter letter;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "plane_seat_class", nullable = false)
+    private PlaneSeatClass planeSeatClass;
+
     @ManyToMany(mappedBy = "planeSeats")
     private Set<Plane> planes;
 
-    @ManyToMany(mappedBy = "takenPlaneSeats")
-    private Set<PlaneTicket> planeTickets;
+    @OneToMany(mappedBy = "planeSeat")
+    private Set<FlightSeatAvailability> flightSeatAvailabilities;
+
+    @OneToMany(mappedBy = "planeSeat")
+    private Set<FlightTicket> flightTickets;
+
 }

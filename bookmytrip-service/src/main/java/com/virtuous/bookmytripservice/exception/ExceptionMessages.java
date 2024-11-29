@@ -12,5 +12,6 @@ public class ExceptionMessages {
     public static final String AIRPORT_NOT_FOUND = "Airport not found";
     public static final String AIRLINE_NOT_FOUND = "Airline not found";
     public static final String PLANE_NOT_FOUND = "Plane not found";
+    public static final String TRIP_NOT_FOUND = "Trip not found";
 
 }

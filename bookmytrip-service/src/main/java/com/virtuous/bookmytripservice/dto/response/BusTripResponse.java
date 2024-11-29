@@ -4,20 +4,21 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BusTicketResponse implements Serializable {
+public class BusTripResponse implements Serializable {
 
     private String tripNumber;
     private String departure;
     private String arrival;
-    private LocalDateTime departureTime;
-    private LocalDateTime arrivalTime;
+    private String status;
+    private ZonedDateTime departureTime;
+    private ZonedDateTime arrivalTime;
     private BigDecimal price;
     private BusTerminalResponse departureBusTerminal;
     private BusTerminalResponse arrivalBusTerminal;

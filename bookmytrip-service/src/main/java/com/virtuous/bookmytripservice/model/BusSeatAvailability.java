@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -13,18 +12,20 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name = "bus_operators")
+@Table(name = "bus_seat_availabilities")
 @SQLRestriction("deleted_at IS NULL")
-public class BusOperator extends Auditable {
+public class BusSeatAvailability extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "bus_operator_id")
+    @Column(name = "bus_seat_availability_id")
     private UUID id;
 
-    @Column(name = "bus_operator_name", nullable = false, unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_trip_id", nullable = false)
+    private BusSeat busSeat;
 
-    @OneToMany(mappedBy = "busOperator")
-    private Set<BusTrip> busTrips;
+    @Column(name = "is_available", nullable = false)
+    private Boolean isAvailable;
+
 }

@@ -1,7 +1,9 @@
 package com.virtuous.bookmytripservice.model;
 
+import com.virtuous.bookmytripservice.model.enums.TimeZoneEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Set;
 import java.util.UUID;
@@ -13,7 +15,8 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "airports")
-public class Airport {
+@SQLRestriction("deleted_at IS NULL")
+public class Airport extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,11 +35,15 @@ public class Airport {
     @Column(name = "airport_country", nullable = false)
     private String country;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "timezone", nullable = false)
+    private TimeZoneEnum timezone;
+
     @OneToMany(mappedBy = "departureAirport")
-    private Set<PlaneTicket> departurePlaneTickets;
+    private Set<Flight> departureFlights;
 
     @OneToMany(mappedBy = "arrivalAirport")
-    private Set<PlaneTicket> arrivalPlaneTickets;
+    private Set<Flight> arrivalFlights;
 
     @PrePersist
     @PreUpdate
