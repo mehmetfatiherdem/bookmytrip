@@ -41,7 +41,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             String path = request.getURI().getPath();
             HttpMethod method = exchange.getRequest().getMethod();
 
-            // validator.isSecured.test(request)
             if (path.startsWith("/api/v1/auth/logout") || adminOnlyRoutes.stream().anyMatch(path::startsWith) || (globalRoutes.stream().noneMatch(path::startsWith) && method != HttpMethod.GET)) {
 
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {

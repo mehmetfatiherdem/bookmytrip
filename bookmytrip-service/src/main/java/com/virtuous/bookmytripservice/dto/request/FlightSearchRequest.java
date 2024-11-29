@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -18,9 +18,9 @@ public class FlightSearchRequest {
     private UUID id;
     private String departure;
     private String arrival;
-    private LocalDateTime departureTime;
+    private ZonedDateTime departureTime;
     private LocalDate departureDate;
-    private LocalDateTime arrivalTime;
+    private ZonedDateTime arrivalTime;
     private BigDecimal price;
     private String flightNumber;
     private UUID departureAirportId;

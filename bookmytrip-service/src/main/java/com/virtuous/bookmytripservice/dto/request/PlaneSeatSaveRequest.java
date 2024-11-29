@@ -12,4 +12,5 @@ import lombok.Setter;
 public class PlaneSeatSaveRequest {
     private int number;
     private String letter;
+    private String planeSeatClass;
 }

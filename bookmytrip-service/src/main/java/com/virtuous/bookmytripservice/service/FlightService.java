@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -54,6 +56,9 @@ public class FlightService {
         Airport departureAirport = airportService.getAirportByCode(departureAirportCode.toUpperCase());
         Airport arrivalAirport = airportService.getAirportByCode(arrivalAirportCode.toUpperCase());
 
-        return FlightConverter.toResponse(flightRepository.findFlightsByAndDepartureAirportAndArrivalAirportAndDepartureTimeDate(departureAirport, arrivalAirport, date));
+        ZoneId departureZoneId = departureAirport.getTimezone().toZoneId();
+        ZonedDateTime departureDateTime = date.atStartOfDay(departureZoneId);
+
+        return FlightConverter.toResponse(flightRepository.findFlightsByDepartureAirportAndArrivalAirportAndDepartureTimeDate(departureAirport, arrivalAirport, departureDateTime));
     }
 }

@@ -8,12 +8,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/trips")
 @RequiredArgsConstructor
 public class TripController {
 
     private final TripService tripService;
+
+    @GetMapping
+    public GenericResponse<List<TripResponse>> getAllTrips() {
+        return GenericResponse.success(tripService.getAllTrips(), HttpStatus.OK);
+    }
+
+    @GetMapping("/departure/{departure}/arrival/{arrival}")
+    public GenericResponse<List<TripResponse>> getTripsByDepartureAndDestination(@PathVariable String departure, @PathVariable String arrival) {
+        return GenericResponse.success(tripService.getTripsByDestinationAndArrival(departure, arrival), HttpStatus.OK);
+    }
 
     @PatchMapping("/{tripId}")
     public GenericResponse<TripResponse> cancelTrip(@PathVariable String tripId, @RequestBody TripStatusUpdateRequest request) {

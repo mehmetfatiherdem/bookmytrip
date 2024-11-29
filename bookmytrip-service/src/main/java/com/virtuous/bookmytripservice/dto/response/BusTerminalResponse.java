@@ -13,4 +13,5 @@ public class BusTerminalResponse implements Serializable {
     private String name;
     private String city;
     private String country;
+    private String timeZone;
 }

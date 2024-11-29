@@ -3,6 +3,7 @@ package com.virtuous.bookmytripservice.model;
 import com.virtuous.bookmytripservice.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
@@ -13,7 +14,8 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "passengers")
-public class Passenger {
+@SQLRestriction("deleted_at IS NULL")
+public class Passenger extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

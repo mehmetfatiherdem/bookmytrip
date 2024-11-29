@@ -5,6 +5,7 @@ import com.virtuous.bookmytripservice.model.enums.Letter;
 import com.virtuous.bookmytripservice.model.enums.PlaneSeatClass;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Set;
 import java.util.UUID;
@@ -16,7 +17,8 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "plane_seats")
-public class PlaneSeat {
+@SQLRestriction("deleted_at IS NULL")
+public class PlaneSeat extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

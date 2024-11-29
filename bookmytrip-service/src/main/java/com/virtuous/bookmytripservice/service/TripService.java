@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,5 +36,14 @@ public class TripService {
         tripRepository.save(trip);
 
         return TripConverter.toResponse(trip);
+    }
+
+    public List<TripResponse> getAllTrips() {
+        return TripConverter.toResponse(tripRepository.findAll());
+    }
+
+    public List<TripResponse> getTripsByDestinationAndArrival(String departure, String arrival) {
+        var trips = tripRepository.findTripsByDepartureAndAndArrivalIgnoreCase(departure, arrival);
+        return TripConverter.toResponse(trips);
     }
 }

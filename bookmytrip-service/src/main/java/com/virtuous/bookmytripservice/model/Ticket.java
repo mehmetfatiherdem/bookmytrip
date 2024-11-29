@@ -3,6 +3,7 @@ package com.virtuous.bookmytripservice.model;
 import com.virtuous.bookmytripservice.model.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,7 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name="tickets")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Ticket {
+@SQLRestriction("deleted_at IS NULL")
+public class Ticket extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

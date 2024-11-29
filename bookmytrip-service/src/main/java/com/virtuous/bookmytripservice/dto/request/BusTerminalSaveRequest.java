@@ -14,4 +14,5 @@ public class BusTerminalSaveRequest {
     private String name;
     private String city;
     private String country;
+    private String timeZone;
 }

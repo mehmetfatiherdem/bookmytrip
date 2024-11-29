@@ -15,6 +15,7 @@ public class BusTerminalConverter {
                 .name(busTerminal.getName())
                 .city(busTerminal.getCity())
                 .country(busTerminal.getCountry())
+                .timeZone(busTerminal.getTimezone().name())
                 .build();
     }
 

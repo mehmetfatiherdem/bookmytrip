@@ -2,6 +2,7 @@ package com.virtuous.bookmytripservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "bus_trips")
+@SQLRestriction("deleted_at IS NULL")
 public class BusTrip extends Trip {
 
     @Column(name = "bus_trip_number", nullable = false)

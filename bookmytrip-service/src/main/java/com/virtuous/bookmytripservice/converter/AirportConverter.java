@@ -16,6 +16,7 @@ public class AirportConverter {
                 .name(airport.getName())
                 .country(airport.getCountry())
                 .city(airport.getCity())
+                .timeZone(airport.getTimezone().name())
                 .build();
     }
 

@@ -3,10 +3,9 @@ package com.virtuous.bookmytripservice.model;
 import com.virtuous.bookmytripservice.model.enums.TripStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,7 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name="trips")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Trip {
+@SQLRestriction("deleted_at IS NULL")
+public class Trip extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,11 +35,11 @@ public class Trip {
     @Column(name = "trip_status", nullable = false)
     private TripStatus status;
 
-    @Column(name = "departure_time", nullable = false)
-    private LocalDateTime departureTime;
+    @Column(name = "departure_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime departureTime;
 
-    @Column(name = "arrival_time", nullable = false)
-    private LocalDateTime arrivalTime;
+    @Column(name = "arrival_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime arrivalTime;
 
     @OneToMany(mappedBy = "trip")
     private Set<Ticket> tickets;
