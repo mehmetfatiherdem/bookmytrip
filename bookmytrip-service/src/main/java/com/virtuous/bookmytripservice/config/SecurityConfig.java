@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/plane-seats/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/flights/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/trips/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/flight-tickets/**").permitAll()
 
 
                                 // only admin-level accessible endpoint-methods
@@ -94,6 +95,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/trips/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/trips/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/trips/**").hasAuthority("ADMIN")
+
+                                .requestMatchers(HttpMethod.POST, "/api/v1/flight-tickets/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/flight-tickets/**").hasAuthority("ADMIN")
 
 
                                 //**********************************************************************

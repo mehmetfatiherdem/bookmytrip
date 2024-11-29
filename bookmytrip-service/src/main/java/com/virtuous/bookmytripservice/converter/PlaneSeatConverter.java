@@ -14,6 +14,7 @@ public class PlaneSeatConverter {
         return PlaneSeatResponse.builder()
                 .number(planeSeat.getNumber())
                 .letter(planeSeat.getLetter().name())
+                .planeSeatClass(planeSeat.getPlaneSeatClass().name())
                 .build();
     }
 

@@ -5,6 +5,7 @@ import com.virtuous.bookmytripservice.dto.request.TripStatusUpdateRequest;
 import com.virtuous.bookmytripservice.dto.response.TripResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
 import com.virtuous.bookmytripservice.exception.ExceptionMessages;
+import com.virtuous.bookmytripservice.model.Trip;
 import com.virtuous.bookmytripservice.model.enums.TripStatus;
 import com.virtuous.bookmytripservice.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,11 @@ public class TripService {
     public List<TripResponse> getTripsByDestinationAndArrival(String departure, String arrival) {
         var trips = tripRepository.findTripsByDepartureAndAndArrivalIgnoreCase(departure, arrival);
         return TripConverter.toResponse(trips);
+    }
+
+    public Trip getTripById(String id) {
+        var tripFound = tripRepository.findById(UUID.fromString(id));
+        if (tripFound.isEmpty()) throw new BookMyTripException(ExceptionMessages.TRIP_NOT_FOUND);
+        return tripFound.get();
     }
 }

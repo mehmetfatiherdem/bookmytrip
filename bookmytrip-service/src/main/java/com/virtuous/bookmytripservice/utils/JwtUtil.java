@@ -1,10 +1,13 @@
 package com.virtuous.bookmytripservice.utils;
 
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +25,6 @@ public class JwtUtil {
         this.SECRET = secret;
     }
 
-
     public boolean isTokenValid(String token) {
         try {
             Jwts.parser()
@@ -37,6 +39,15 @@ public class JwtUtil {
     public String extractUserId(String token) {
         Claims claims = extractAllClaims(token);
         return claims.get("userId", String.class);
+    }
+
+    public String extractJwtFromHeader() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public boolean isUserRevoked(String token, String userId) {
