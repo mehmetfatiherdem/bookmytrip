@@ -40,7 +40,7 @@ public class Ticket extends Auditable {
     @JoinColumn(name = "passenger_id", referencedColumnName = "passenger_id")
     private Passenger passenger;
 
-    @Column (name = "userId", nullable = false)
+    @Column (name = "userId")
     private UUID userId;
 
 

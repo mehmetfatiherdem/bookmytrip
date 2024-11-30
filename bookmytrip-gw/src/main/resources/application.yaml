@@ -7,7 +7,7 @@ spring:
         - id: bookmytrip-service
           uri: lb://BOOKMYTRIP-SERVICE
           predicates:
-            - Path=/api/v1/airlines/**,/api/v1/airports/**,/api/v1/buses/**,/api/v1/bus-operators/**,/api/v1/bus-seats/**,/api/v1/bus-terminals/**,/api/v1/bus-trips/**,/api/v1/planes/**,/api/v1/plane-seats/**,/api/v1/flights/**,/api/v1/trips/**
+            - Path=/api/v1/airlines/**,/api/v1/airports/**,/api/v1/buses/**,/api/v1/bus-operators/**,/api/v1/bus-seats/**,/api/v1/bus-terminals/**,/api/v1/bus-trips/**,/api/v1/planes/**,/api/v1/plane-seats/**,/api/v1/flights/**,/api/v1/trips/**,/api/v1/flight-tickets/**,/api/v1/tickets/**,/api/v1/bus-tickets/**
           filters:
             - AuthenticationFilter
 

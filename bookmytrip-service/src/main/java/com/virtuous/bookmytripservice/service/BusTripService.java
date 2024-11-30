@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.converter.BusTripConverter;
 import com.virtuous.bookmytripservice.dto.request.BusTripSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTripResponse;
 import com.virtuous.bookmytripservice.model.BusTrip;
+import com.virtuous.bookmytripservice.model.enums.TripStatus;
 import com.virtuous.bookmytripservice.repository.BusTripRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class BusTripService {
         busTrip.setArrivalBusTerminal(arrivalBusTerminal);
         busTrip.setBusOperator(busOperator);
         busTrip.setBus(bus);
+        busTrip.setStatus(TripStatus.valueOf(request.getStatus().toUpperCase()));
 
         busTripRepository.save(busTrip);
 
