@@ -5,6 +5,8 @@ import com.virtuous.bookmytripservice.model.FlightTicket;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FlightTicketConverter {
 
@@ -17,5 +19,11 @@ public class FlightTicketConverter {
                 .planeSeat(PlaneSeatConverter.toResponse(flightTicket.getPlaneSeat()))
                 .boardingGate(flightTicket.getBoardingGate())
                 .build();
+    }
+
+    public static List<FlightTicketResponse> toResponse(List<FlightTicket> flightTickets) {
+        return flightTickets.stream()
+                .map(FlightTicketConverter::toResponse)
+                .toList();
     }
 }
