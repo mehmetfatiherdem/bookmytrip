@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +16,7 @@ public class GenericResponse<T> {
 
     private String status;
     private String message;
+    private Map<String, String> messages;
     private HttpStatus httpStatus;
     private T data;
 
@@ -31,6 +34,15 @@ public class GenericResponse<T> {
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .status(GenericResponseConstants.FAILED)
                 .message(message)
+                .data(null)
+                .build();
+    }
+
+    public static <T> GenericResponse<T> failed(Map<String, String> messages) {
+        return GenericResponse.<T>builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .status(GenericResponseConstants.FAILED)
+                .messages(messages)
                 .data(null)
                 .build();
     }
