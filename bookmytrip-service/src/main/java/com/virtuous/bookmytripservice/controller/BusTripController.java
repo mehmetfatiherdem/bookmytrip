@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.dto.request.BusTripSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTripResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.service.BusTripService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class BusTripController {
     private final BusTripService busTripService;
 
     @PostMapping
-    public GenericResponse<BusTripResponse> createBusTrip(@RequestBody BusTripSaveRequest request) {
+    public GenericResponse<BusTripResponse> createBusTrip(@Valid @RequestBody BusTripSaveRequest request) {
         return GenericResponse.success(busTripService.createBusTrip(request), HttpStatus.CREATED);
     }
 
