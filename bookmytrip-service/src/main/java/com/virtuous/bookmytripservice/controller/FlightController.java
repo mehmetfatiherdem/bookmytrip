@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.dto.request.FlightSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.dto.response.FlightResponse;
 import com.virtuous.bookmytripservice.service.FlightService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class FlightController {
     private final FlightService flightService;
 
     @PostMapping
-    public GenericResponse<FlightResponse> createFlight(@RequestBody FlightSaveRequest request) {
+    public GenericResponse<FlightResponse> createFlight(@Valid @RequestBody FlightSaveRequest request) {
         return GenericResponse.success(flightService.createFlight(request), HttpStatus.CREATED);
     }
 
