@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.dto.request.AirlineSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.AirlineResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.service.AirlineService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class AirlineController {
 
     private final AirlineService adminAirlineService;
 
+    @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<AirlineResponse> createAirline(@Valid @RequestBody AirlineSaveRequest request) {
         return GenericResponse.success(adminAirlineService.createAirline(request), HttpStatus.CREATED);

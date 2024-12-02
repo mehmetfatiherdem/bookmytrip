@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.dto.request.BusSeatSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusSeatResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.service.BusSeatService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BusSeatController {
     private final BusSeatService busSeatService;
 
+    @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<BusSeatResponse> create(@Valid @RequestBody BusSeatSaveRequest request) {
         return GenericResponse.success(busSeatService.createBusSeat(request), HttpStatus.CREATED);

@@ -4,6 +4,7 @@ import com.virtuous.bookmytripuserservice.dto.request.RoleSaveRequest;
 import com.virtuous.bookmytripuserservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripuserservice.dto.response.RoleResponse;
 import com.virtuous.bookmytripuserservice.service.RoleService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class RoleController {
 
     private final RoleService roleService;
 
+    @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<RoleResponse> createRole(@Valid @RequestBody RoleSaveRequest request) {
         return GenericResponse.success(roleService.createRole(request), HttpStatus.CREATED);
