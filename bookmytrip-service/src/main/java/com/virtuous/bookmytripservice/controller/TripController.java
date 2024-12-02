@@ -4,6 +4,7 @@ import com.virtuous.bookmytripservice.dto.request.TripStatusUpdateRequest;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.dto.response.TripResponse;
 import com.virtuous.bookmytripservice.service.TripService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ public class TripController {
         return GenericResponse.success(tripService.getTripsByDestinationAndArrival(departure, arrival), HttpStatus.OK);
     }
 
+    @SecurityRequirement(name = "Authorization")
     @PatchMapping("/{tripId}")
     public GenericResponse<TripResponse> cancelTrip(@PathVariable String tripId, @Valid @RequestBody TripStatusUpdateRequest request) {
         return GenericResponse.success(tripService.updateTripStatus(tripId, request), HttpStatus.OK);

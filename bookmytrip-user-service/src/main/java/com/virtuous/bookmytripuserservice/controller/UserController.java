@@ -3,6 +3,7 @@ package com.virtuous.bookmytripuserservice.controller;
 import com.virtuous.bookmytripuserservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripuserservice.dto.response.UserResponse;
 import com.virtuous.bookmytripuserservice.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @SecurityRequirement(name = "Authorization")
     @GetMapping("/me")
     public GenericResponse<UserResponse> getProfile() {
         return GenericResponse.success(userService.getProfile(), HttpStatus.OK);

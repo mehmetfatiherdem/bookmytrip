@@ -5,6 +5,7 @@ import com.virtuous.bookmytripuserservice.dto.request.UserSaveRequest;
 import com.virtuous.bookmytripuserservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripuserservice.dto.response.UserResponse;
 import com.virtuous.bookmytripuserservice.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
+    @SecurityRequirement(name = "Authorization")
     @GetMapping(path = "/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
         return ResponseEntity.ok(authService.logout(authHeader));

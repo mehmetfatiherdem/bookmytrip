@@ -21,7 +21,17 @@ public class SecurityConfig {
     // /flights/COV-SAW/2024-12-06?sort=bestflight_a
     private static final String[] AUTH_WHITELIST = {
             "/api/v1/auth/login/**",
-            "/api/v1/auth/register/**"
+            "/api/v1/auth/register/**",
+            "/user-service/swagger-ui.html",
+            "/user-service/swagger-ui/**",
+            "/user-service/v3/api-docs/**",
+            "/user-service/v3/api-docs.yaml",
+            "/user-service/swagger-resources",
+            "/user-service/swagger-resources/**",
+            "/user-service/configuration/ui",
+            "/user-service/configuration/security",
+            "/user-service/swagger-ui/**",
+            "/user-service/webjars/**"
     };
 
     @Bean

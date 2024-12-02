@@ -18,6 +18,19 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/bookmytrip-service/swagger-ui.html",
+            "/bookmytrip-service/swagger-ui/**",
+            "/bookmytrip-service/v3/api-docs/**",
+            "/bookmytrip-service/v3/api-docs.yaml",
+            "/bookmytrip-service/swagger-resources",
+            "/bookmytrip-service/swagger-resources/**",
+            "/bookmytrip-service/configuration/ui",
+            "/bookmytrip-service/configuration/security",
+            "/bookmytrip-service/swagger-ui/**",
+            "/bookmytrip-service/webjars/**",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,6 +52,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/trips/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/flight-tickets/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/bus-tickets/**").permitAll()
+
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
 
 
                                 // only admin-level accessible endpoint-methods

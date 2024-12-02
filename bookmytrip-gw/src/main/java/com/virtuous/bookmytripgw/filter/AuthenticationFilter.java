@@ -25,7 +25,28 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     public static final List<String> globalRoutes = List.of(
             "/api/v1/auth/register",
-            "/api/v1/auth/login"
+            "/api/v1/auth/login",
+            "/bookmytrip-service/swagger-ui.html",
+            "/bookmytrip-service/swagger-ui/**",
+            "/bookmytrip-service/v3/api-docs/**",
+            "/bookmytrip-service/v3/api-docs.yaml",
+            "/bookmytrip-service/swagger-resources",
+            "/bookmytrip-service/swagger-resources/**",
+            "/bookmytrip-service/configuration/ui",
+            "/bookmytrip-service/configuration/security",
+            "/bookmytrip-service/swagger-ui/**",
+            "/bookmytrip-service/webjars/**",
+
+            "/user-service/swagger-ui.html",
+            "/user-service/swagger-ui/**",
+            "/user-service/v3/api-docs/**",
+            "/user-service/v3/api-docs.yaml",
+            "/user-service/swagger-resources",
+            "/user-service/swagger-resources/**",
+            "/user-service/configuration/ui",
+            "/user-service/configuration/security",
+            "/user-service/swagger-ui/**",
+            "/user-service/webjars/**"
     );
 
     public AuthenticationFilter() {

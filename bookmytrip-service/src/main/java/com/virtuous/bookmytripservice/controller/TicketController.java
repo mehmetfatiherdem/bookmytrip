@@ -3,6 +3,7 @@ package com.virtuous.bookmytripservice.controller;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.dto.response.TicketResponse;
 import com.virtuous.bookmytripservice.service.TicketService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import java.util.List;
 public class TicketController {
 
     private final TicketService ticketService;
-
+    @SecurityRequirement(name = "Authorization")
     @GetMapping("/mine")
     public GenericResponse<List<TicketResponse>> getAuthUserTickets() {
         return GenericResponse.success(ticketService.getAuthUserTickets(), HttpStatus.OK);
