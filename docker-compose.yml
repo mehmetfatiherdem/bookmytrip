@@ -33,7 +33,7 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     networks:
-      - my_network # Replace with your existing network or default bridge network
+      - my_network
 
   mongodb:
     image: mongo:5.0
@@ -45,6 +45,72 @@ services:
       - "27018:27017"
     volumes:
       - mongo-data:/data/db
+
+  # Redis for services that require it
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  # PostgreSQL
+  postgresql:
+    image: postgres:13
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123qwe
+      POSTGRES_DB: bookmytrip
+    ports:
+      - "6543:5432"
+
+  # Each service
+  bookmytrip-exception-service:
+    build: ./bookmytrip-exception-service
+    ports:
+      - "8097:8097"
+    depends_on:
+      - mongodb
+
+  bookmytrip-gw:
+    build: ./bookmytrip-gw
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka
+      - redis
+
+  bookmytrip-notification-service:
+    build: ./bookmytrip-notification-service
+    ports:
+      - "8098:8098"
+    depends_on:
+      - rabbitmq
+
+  bookmytrip-service:
+    build: ./bookmytrip-service
+    ports:
+      - "8088:8088"
+    depends_on:
+      - postgresql
+      - redis
+      - kafka
+
+  bookmytrip-service-discovery:
+    build: ./bookmytrip-service-discovery
+    container_name: bookmytrip-service-discovery
+    ports:
+      - "8761:8761"
+
+  bookmytrip-user-service:
+    build: ./bookmytrip-user-service
+    ports:
+      - "8089:8089"
+    depends_on:
+      - postgresql
+      - redis
+      - kafka
+      - rabbitmq
 
 volumes:
   mongo-data:
