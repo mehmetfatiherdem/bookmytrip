@@ -9,6 +9,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    networks:
+      - dev
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -16,35 +18,40 @@ services:
     depends_on:
       - zookeeper
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
+      KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
+    networks:
+      - dev
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672" # Default RabbitMQ port
-      - "15672:15672" # Management console port
+      - "5672:5672"
+      - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     networks:
-      - my_network
+      - dev
 
   mongodb:
     image: mongo:5.0
     container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27018:27017"
     volumes:
       - mongo-data:/data/db
+    networks:
+      - dev
 
   # Redis for services that require it
   redis:
@@ -52,25 +59,48 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - dev
 
-  # PostgreSQL
-  postgresql:
+  # PostgreSQL for bookmytrip
+  bookmytrip-db:
     image: postgres:13
-    container_name: postgresql
+    container_name: bookmytrip-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123qwe
-      POSTGRES_DB: bookmytrip
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_BOOKMYTRIP_DB}
     ports:
-      - "6543:5432"
+      - "5433:5432"  # Expose PostgreSQL port for bookmytrip DB
+    volumes:
+      - bookmytrip-db-data:/var/lib/postgresql/data
+    networks:
+      - dev
 
-  # Each service
+  # PostgreSQL for bookmytrip_user
+  bookmytrip-user-db:
+    image: postgres:13
+    container_name: bookmytrip-user-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_BOOKMYTRIP_USER_DB}
+    ports:
+      - "5434:5432"  # Expose PostgreSQL port for bookmytrip-user DB
+    volumes:
+      - bookmytrip-user-db-data:/var/lib/postgresql/data
+    networks:
+      - dev
+
+  # services
   bookmytrip-exception-service:
     build: ./bookmytrip-exception-service
     ports:
       - "8097:8097"
     depends_on:
       - mongodb
+    networks:
+      - dev
 
   bookmytrip-gw:
     build: ./bookmytrip-gw
@@ -79,6 +109,20 @@ services:
     depends_on:
       - kafka
       - redis
+      - bookmytrip-service-discovery
+    networks:
+      - dev
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    ports:
+      - "8080:8080"  # Expose Swagger UI on port 8080
+    environment:
+      - API_URL=http://bookmytrip-gw:9090/user-service/v3/api-docs
+    networks:
+      - dev
+
 
   bookmytrip-notification-service:
     build: ./bookmytrip-notification-service
@@ -86,35 +130,47 @@ services:
       - "8098:8098"
     depends_on:
       - rabbitmq
+    networks:
+      - dev
 
   bookmytrip-service:
     build: ./bookmytrip-service
     ports:
       - "8088:8088"
     depends_on:
-      - postgresql
+      - bookmytrip-db
       - redis
       - kafka
+      - bookmytrip-service-discovery
+    networks:
+      - dev
 
   bookmytrip-service-discovery:
     build: ./bookmytrip-service-discovery
     container_name: bookmytrip-service-discovery
     ports:
       - "8761:8761"
+    networks:
+      - dev
 
   bookmytrip-user-service:
     build: ./bookmytrip-user-service
     ports:
       - "8089:8089"
     depends_on:
-      - postgresql
+      - bookmytrip-user-db
       - redis
       - kafka
       - rabbitmq
+      - bookmytrip-service-discovery
+    networks:
+      - dev
 
 volumes:
   mongo-data:
+  bookmytrip-db-data:
+  bookmytrip-user-db-data:
 
 networks:
-  my_network:
+  dev:
     driver: bridge
