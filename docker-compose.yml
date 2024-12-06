@@ -113,13 +113,23 @@ services:
     networks:
       - dev
 
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - bookmytrip-gw
+    networks:
+      - dev
+
   swagger-ui:
     image: swaggerapi/swagger-ui
     container_name: swagger-ui
     ports:
-      - "8080:8080"  # Expose Swagger UI on port 8080
+      - "8080:8080"
     environment:
-      - API_URL=http://bookmytrip-gw:9090/user-service/v3/api-docs
+      - API_URL=http://localhost/v3/api-docs
     networks:
       - dev
 

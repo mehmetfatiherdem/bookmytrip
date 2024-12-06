@@ -27,4 +27,5 @@ public class BookmytripGwApplication {
 				.route(r -> r.path("/bookmytrip-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://BOOKMYTRIP-SERVICE"))
 				.build();
 	}
+
 }
