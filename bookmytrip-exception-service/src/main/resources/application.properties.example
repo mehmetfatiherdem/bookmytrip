@@ -1,0 +1,5 @@
+spring.application.name=bookmytrip-exception-service
+
+spring.data.mongodb.uri=
+server.port=
+

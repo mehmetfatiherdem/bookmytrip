@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
 
@@ -119,6 +119,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/bus-tickets/**").hasAuthority("ADMIN")
 
                                 //**********************************************************************
+                                //.requestMatchers(HttpMethod.OPTIONS).permitAll()
+
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

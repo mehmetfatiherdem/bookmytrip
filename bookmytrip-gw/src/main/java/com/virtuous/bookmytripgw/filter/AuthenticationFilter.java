@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public static final List<String> globalRoutes = List.of(
             "/api/v1/auth/register",
             "/api/v1/auth/login",
+            "/v3/api-docs/**",
             "/bookmytrip-service/swagger-ui.html",
             "/bookmytrip-service/swagger-ui/**",
             "/bookmytrip-service/v3/api-docs/**",
@@ -58,6 +60,24 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
 
             ServerHttpRequest request = exchange.getRequest();
+            ServerHttpResponse response = exchange.getResponse();
+
+            /*
+
+            if (CorsUtils.isCorsRequest(request)) {
+                response.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:8080");
+                response.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                response.getHeaders().add("Access-Control-Allow-Headers", "Authorization, Content-Type");
+                response.getHeaders().add("Access-Control-Allow-Credentials", "true");
+
+                // Return early if it's a preflight request (OPTIONS)
+                if (request.getMethod() == HttpMethod.OPTIONS) {
+                    response.setStatusCode(HttpStatus.OK);
+                    return response.setComplete();
+                }
+            }
+
+             */
 
             String path = request.getURI().getPath();
             HttpMethod method = exchange.getRequest().getMethod();
@@ -65,8 +85,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             if (path.startsWith("/api/v1/auth/logout") || adminOnlyRoutes.stream().anyMatch(path::startsWith) || (globalRoutes.stream().noneMatch(path::startsWith) && method != HttpMethod.GET)) {
 
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    return exchange.getResponse().setComplete();
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
 
                 }
 
@@ -80,14 +100,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
                 // Check if token is revoked
                 if (jwtUtil.isTokenRevoked(authHeader) || jwtUtil.isUserRevoked(authHeader, userId)) {
-                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    return exchange.getResponse().setComplete();
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
                 }
 
 
                 if (jwtUtil.isTokenExpired(authHeader)) {
-                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    return exchange.getResponse().setComplete();
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
                 }
 
                 try {
@@ -101,8 +121,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
 
                 } catch (Exception e) {
-                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    return exchange.getResponse().setComplete();
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
                 }
             }
 

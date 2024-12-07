@@ -1,8 +1,7 @@
-spring.application.name=bookmytrip-service
+spring.application.name=bookmytrip-user-service
 server.port=
 
 eureka.client.serviceUrl.defaultZone=
-
 
 spring.datasource.url=
 spring.datasource.username=
@@ -11,9 +10,9 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.datasource.driver-class-name=org.postgresql.Driver
 
-spring.jwt.secret=
-
 spring.main.allow-bean-definition-overriding=true
+
+spring.jwt.secret=
 
 spring.data.redis.host=
 spring.data.redis.port=
@@ -22,12 +21,16 @@ spring.kafka.producer.bootstrap-servers=
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
 spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
 
-openapi.service.title=bookmytrip-service doc
+spring.rabbitmq.host=
+spring.rabbitmq.port=
+spring.rabbitmq.username=
+spring.rabbitmq.password=
+
+openapi.service.title=user-service doc
 openapi.service.version=1.0.0
 openapi.service.url=
 
-springdoc.api-docs.path: /bookmytrip-service/v3/api-docs
+springdoc.api-docs.path: /user-service/v3/api-docs
 springdoc.api-docs.enabled=true
 springdoc.swagger-ui.enabled=true
-springdoc.swagger-ui.path: /bookmytrip-service/swagger-ui.html
-
+springdoc.swagger-ui.path: /user-service/swagger-ui.html
