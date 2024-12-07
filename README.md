@@ -25,6 +25,9 @@
     - **Kafka:** Event streaming for sending high-throughput exceptions to the `exception-service`.
     - **RabbitMQ:** Message queuing for reliable communication with the `notification-service`.
 - **Security:** JWT (JSON Web Tokens) for user authentication and access control.
+- **Containerization:** Docker for simplifying deployment and ensuring consistency across environments.
+- **Service Discovery:** Integrated service discovery for efficient load balancing.
+- **Reverse Proxy:** Nginx for enhancing security by validating client requests and controlling access.
 
 ---
 
@@ -55,11 +58,60 @@ The application is designed as a collection of microservices, each responsible f
 - Secures API endpoints by validating tokens for each request.
 - Ensures user sessions are both secure and lightweight.
 
+### Service Discovery
+- Provides automatic registration and discovery of services.
+- Handles load balancing internally, ensuring efficient distribution of requests across instances.
+
+### Docker
+- Each microservice is containerized using Docker, simplifying deployment and enabling consistent runtime environments across different systems.
+- Docker Compose is used to manage and orchestrate the services efficiently.
+
+### Nginx
+- Configured as a reverse proxy to validate client requests and control access to backend services.
+- Enhances security by preventing direct client access to internal microservices.
 ---
 
 ## Challenges Solved
 
-- **Scalability:** Designed to handle high volumes of user traffic by decoupling services and leveraging Kafka for asynchronous processing.
+- **Scalability:** Designed to handle high volumes of user traffic by decoupling services and leveraging service discovery for load balancing.
 - **Error Handling:** Centralized logging and error management using MongoDB ensure the application remains robust and easy to debug.
 - **Performance Optimization:** Redis caching for JWT validation reduces latency and ensures a seamless user experience.
-- **Security:** Comprehensive authentication and authorization mechanisms protect sensitive user data.
+- **Security:** Comprehensive authentication and authorization mechanisms protect sensitive user data. Nginx adds another layer of security by validating and controlling access.
+- **Efficient Deployment:** Docker ensures the application runs consistently across different environments, while service discovery and Nginx streamline communication.
+---
+
+## Installation and Setup
+
+To run the application locally:
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/mehmetfatiherdem/BookMyTrip.git
+   cd BookMyTrip
+
+2. Build each microservice: Navigate to the directory of each microservice and run the following command:
+
+   ```bash
+   mvn clean package
+
+3. Navigate back to the root directory of the project and run the following command:
+   
+   ```bash
+   docker-compose up --build
+
+4. Access the application through the Nginx reverse proxy at:
+
+   ```bash
+   http://localhost
+---
+
+## Troubleshooting
+- **Dependencies:** If you encounter issues during the Maven build process, ensure all dependencies are properly downloaded and check the pom.xml files for each microservice.
+- **Docker-specific issues** Verify that Docker and Docker Compose are installed and running correctly on your system.
+---
+
+## Let's Connect
+If you would like to discuss how I can bring value to your team, feel free to reach out:
+
+[GitHub](https://github.com/mehmetfatiherdem)
+[LinkedIn](https://linkedin.com/in/matterdem)
