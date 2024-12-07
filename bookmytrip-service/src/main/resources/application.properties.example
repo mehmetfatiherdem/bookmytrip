@@ -1,5 +1,8 @@
-spring.application.name=
+spring.application.name=bookmytrip-service
 server.port=
+
+eureka.client.serviceUrl.defaultZone=
+
 
 spring.datasource.url=
 spring.datasource.username=
@@ -11,3 +14,20 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jwt.secret=
 
 spring.main.allow-bean-definition-overriding=true
+
+spring.data.redis.host=
+spring.data.redis.port=
+
+spring.kafka.producer.bootstrap-servers=
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+openapi.service.title=bookmytrip-service doc
+openapi.service.version=1.0.0
+openapi.service.url=
+
+springdoc.api-docs.path: /bookmytrip-service/v3/api-docs
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.path: /bookmytrip-service/swagger-ui.html
+
