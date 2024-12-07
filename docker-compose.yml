@@ -129,7 +129,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - API_URL=http://localhost/v3/api-docs
+      - API_URLS=[{"url":"http://localhost/v3/api-docs","name":"Gateway"},
+        {"url":"http://localhost/user-service/v3/api-docs","name":"User Service"},
+        {"url":"http://localhost/bookmytrip-service/v3/api-docs","name":"Bookmytrip Service"}]
     networks:
       - dev
 
