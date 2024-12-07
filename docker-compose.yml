@@ -99,6 +99,7 @@ services:
       - "8097:8097"
     depends_on:
       - mongodb
+      - kafka
     networks:
       - dev
 
