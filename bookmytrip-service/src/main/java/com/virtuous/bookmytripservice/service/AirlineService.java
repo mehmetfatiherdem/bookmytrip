@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -21,17 +21,18 @@ public class AirlineService {
 
     private final AirlineRepository airlineRepository;
 
-    public Airline getAirlineByCode(String code) {
-        Optional<Airline> airline = airlineRepository.findAirlineByCode(code);
-
-        if (airline.isEmpty()) {
-            throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);
-        }
-        return airline.get();
+    public List<AirlineResponse> getAllAirlines() {
+        var airlines = airlineRepository.findAll();
+        return AirlineConverter.toResponse(airlines);
     }
 
-    public Airline getAirlineById(UUID id) {
-        Optional<Airline> airline = airlineRepository.findById(id);
+    public AirlineResponse getAirlineByCode(String airlineCode) {
+        var airline = findAirlineByCode(airlineCode.toUpperCase());
+        return AirlineConverter.toResponse(airline);
+    }
+
+    public Airline findAirlineByCode(String code) {
+        Optional<Airline> airline = airlineRepository.findAirlineByCode(code);
 
         if (airline.isEmpty()) {
             throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);

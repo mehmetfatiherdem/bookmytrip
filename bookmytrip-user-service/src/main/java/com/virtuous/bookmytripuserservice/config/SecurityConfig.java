@@ -41,10 +41,13 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
 
+                                .requestMatchers("/api/v1/users/me").hasAnyAuthority("USER", "ADMIN")
+
                                 // only admin-level accessible endpoints
                                 .requestMatchers("/api/v1/roles/**").hasAuthority("ADMIN")
                                 .requestMatchers("/api/v1/user-roles/**").hasAuthority("ADMIN")
-
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users/*").hasAuthority("ADMIN")
 
                                 // whitelists
                                 .requestMatchers(AUTH_WHITELIST).permitAll()

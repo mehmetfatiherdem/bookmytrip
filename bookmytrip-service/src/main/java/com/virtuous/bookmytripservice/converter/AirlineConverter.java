@@ -17,7 +17,7 @@ public class AirlineConverter {
                 .build();
     }
 
-    public List<AirlineResponse> toResponse(List<Airline> airlines) {
+    public static List<AirlineResponse> toResponse(List<Airline> airlines) {
         return airlines
                 .stream()
                 .map(AirlineConverter::toResponse)

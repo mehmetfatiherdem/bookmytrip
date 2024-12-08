@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,16 @@ import java.util.Optional;
 public class RoleService {
 
     private final RoleRepository roleRepository;
+
+    public RoleResponse getRoleByRoleName(String roleName) {
+        var role = findRoleByRoleName(RoleName.valueOf(roleName.toUpperCase()));
+        return RoleConverter.toResponse(role);
+    }
+
+    public List<RoleResponse> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return RoleConverter.toResponse(roles);
+    }
 
     public RoleResponse createRole(RoleSaveRequest request) {
         Role role = new Role();
@@ -34,7 +45,7 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
-    public Role findRoleByRoleType(RoleName roleName) {
+    public Role findRoleByRoleName(RoleName roleName) {
         Optional<Role> role = roleRepository.findRoleByName(roleName);
 
         if (role.isEmpty()) {

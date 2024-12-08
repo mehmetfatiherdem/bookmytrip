@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class RoleResponse {
+    private String id;
     private String name;
 }

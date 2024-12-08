@@ -29,9 +29,9 @@ public class FlightService {
 
     public FlightResponse createFlight(FlightSaveRequest request) {
 
-        var departureAirport = airportService.getAirportByCode(request.getDepartureAirportCode().toUpperCase());
-        var arrivalAirport = airportService.getAirportByCode(request.getArrivalAirportCode().toUpperCase());
-        var airline = airlineService.getAirlineByCode(request.getAirlineCode().toUpperCase());
+        var departureAirport = airportService.findAirportByCode(request.getDepartureAirportCode().toUpperCase());
+        var arrivalAirport = airportService.findAirportByCode(request.getArrivalAirportCode().toUpperCase());
+        var airline = airlineService.findAirlineByCode(request.getAirlineCode().toUpperCase());
         var plane = planeService.findPlaneById(request.getPlaneId());
 
         Flight flight = new Flight();
@@ -53,8 +53,8 @@ public class FlightService {
 
     public List<FlightResponse> searchFlights(String departureAirportCode, String arrivalAirportCode, LocalDate date) {
 
-        Airport departureAirport = airportService.getAirportByCode(departureAirportCode.toUpperCase());
-        Airport arrivalAirport = airportService.getAirportByCode(arrivalAirportCode.toUpperCase());
+        Airport departureAirport = airportService.findAirportByCode(departureAirportCode.toUpperCase());
+        Airport arrivalAirport = airportService.findAirportByCode(arrivalAirportCode.toUpperCase());
 
         ZoneId departureZoneId = departureAirport.getTimezone().toZoneId();
         ZonedDateTime departureDateTime = date.atStartOfDay(departureZoneId);

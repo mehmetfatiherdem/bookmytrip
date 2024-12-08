@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -22,7 +22,17 @@ public class AirportService {
 
     private final AirportRepository airportRepository;
 
-    public Airport getAirportByCode(String code) {
+    public List<AirportResponse> getAllAirports() {
+        var airports = airportRepository.findAll();
+        return AirportConverter.toResponse(airports);
+    }
+
+    public AirportResponse getAirportByCode(String airportCode) {
+        var airport = findAirportByCode(airportCode.toUpperCase());
+        return AirportConverter.toResponse(airport);
+    }
+
+    public Airport findAirportByCode(String code) {
         Optional<Airport> airport = airportRepository.findAirportByCode(code);
 
         if(airport.isEmpty()) {
@@ -30,16 +40,6 @@ public class AirportService {
         }
 
         return  airport.get();
-    }
-
-    public Airport getAirportById(UUID id) {
-        Optional<Airport> airport = airportRepository.findById(id);
-
-        if (airport.isEmpty()) {
-            throw new BookMyTripException(ExceptionMessages.AIRPORT_NOT_FOUND);
-        }
-
-        return airport.get();
     }
 
     public AirportResponse createAirport(AirportSaveRequest request) {

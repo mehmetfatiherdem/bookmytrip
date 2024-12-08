@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class BusOperatorResponse implements Serializable {
+    private String id;
     private String name;
 
 }
