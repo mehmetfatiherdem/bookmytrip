@@ -12,6 +12,7 @@ public class RoleConverter {
 
     public static RoleResponse toResponse(Role role) {
         return RoleResponse.builder()
+                .id(role.getId().toString())
                 .name(role.getName().name())
                 .build();
     }

@@ -20,7 +20,7 @@ public class AirportConverter {
                 .build();
     }
 
-    public List<AirportResponse> toResponse(List<Airport> airports) {
+    public static List<AirportResponse> toResponse(List<Airport> airports) {
         return airports
                 .stream()
                 .map(AirportConverter::toResponse)

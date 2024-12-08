@@ -8,10 +8,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/bus-operators")
@@ -19,6 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BusOperatorController {
 
     private final BusOperatorService busOperatorService;
+
+    @GetMapping
+    public GenericResponse<List<BusOperatorResponse>> getAllBusOperators() {
+        return GenericResponse.success(busOperatorService.getAllBusOperators(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{busOperatorId}")
+    public GenericResponse<BusOperatorResponse> getBusOperatorById(@PathVariable String busOperatorId) {
+        return GenericResponse.success(busOperatorService.getBusOperatorById(busOperatorId), HttpStatus.OK);
+    }
 
     @SecurityRequirement(name = "Authorization")
     @PostMapping

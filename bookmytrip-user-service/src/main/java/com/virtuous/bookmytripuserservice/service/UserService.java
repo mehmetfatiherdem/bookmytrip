@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
+    public List<UserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return UserConverter.toResponse(users);
+    }
+
+    public UserResponse getUserByEmail(String email) {
+        User user = findByEmail(email);
+        return UserConverter.toResponse(user);
+    }
+
     public UserResponse createUser(UserSaveRequest request, RoleName roleName) {
         User user = new User();
         user.setName(request.getName());
@@ -32,7 +43,7 @@ public class UserService {
         user.setPassword(request.getPassword());
         user.setPhoneNumber(request.getPhoneNumber());
 
-        Role role = roleService.findRoleByRoleType(roleName);
+        Role role = roleService.findRoleByRoleName(roleName);
 
         user.getRoles().add(role);
 

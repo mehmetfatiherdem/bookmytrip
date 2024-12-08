@@ -1,9 +1,8 @@
 package com.virtuous.bookmytripuserservice.dto.response;
 
-import com.virtuous.bookmytripuserservice.model.Role;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +15,6 @@ public class UserRoleResponse {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Set<RoleResponse> roles;
+    private List<RoleResponse> roles;
 
 }

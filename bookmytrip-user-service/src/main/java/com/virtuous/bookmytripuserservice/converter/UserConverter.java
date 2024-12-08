@@ -12,11 +12,13 @@ public class UserConverter {
 
     public static UserResponse toResponse(User user) {
         return UserResponse.builder()
+                .id(user.getId().toString())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .bio(user.getBio())
                 .phoneNumber(user.getPhoneNumber())
+                .userRoles(RoleConverter.toResponse(user.getRoles().stream().toList()))
                 .build();
     }
 

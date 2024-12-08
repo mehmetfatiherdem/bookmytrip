@@ -23,7 +23,7 @@ public class UserRoleService {
     public UserRoleResponse addRoleToUser(UserRoleRequest request) {
 
         User user = userService.findByEmail(request.getEmail());
-        Role role = roleService.findRoleByRoleType(RoleName.valueOf(request.getRoleName()));
+        Role role = roleService.findRoleByRoleName(RoleName.valueOf(request.getRoleName()));
 
         user.getRoles().add(role);
         role.getUsers().add(user);
@@ -40,7 +40,7 @@ public class UserRoleService {
 
     public UserRoleResponse removeRoleFromUser(UserRoleRequest request) {
         User user = userService.findByEmail(request.getEmail());
-        Role role = roleService.findRoleByRoleType(RoleName.valueOf(request.getRoleName()));
+        Role role = roleService.findRoleByRoleName(RoleName.valueOf(request.getRoleName()));
 
         user.getRoles().remove(role);
         role.getUsers().remove(user);

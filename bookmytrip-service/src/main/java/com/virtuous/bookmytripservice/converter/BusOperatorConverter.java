@@ -12,11 +12,12 @@ public class BusOperatorConverter {
 
     public static BusOperatorResponse toResponse(BusOperator busOperator) {
         return BusOperatorResponse.builder()
+                .id(busOperator.getId().toString())
                 .name(busOperator.getName())
                 .build();
     }
 
-    public List<BusOperatorResponse> toResponse(List<BusOperator> busOperators) {
+    public static List<BusOperatorResponse> toResponse(List<BusOperator> busOperators) {
         return busOperators
                 .stream()
                 .map(BusOperatorConverter::toResponse)

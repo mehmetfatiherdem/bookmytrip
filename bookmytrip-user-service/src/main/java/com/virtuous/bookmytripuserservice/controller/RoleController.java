@@ -8,11 +8,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/roles")
@@ -20,6 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController {
 
     private final RoleService roleService;
+
+    @SecurityRequirement(name = "Authorization")
+    @GetMapping
+    public GenericResponse<List<RoleResponse>> getRoles() {
+        return GenericResponse.success(roleService.getAllRoles(), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @GetMapping("/{roleName}")
+    public GenericResponse<RoleResponse> getRoleByRoleName(@PathVariable String roleName) {
+        return GenericResponse.success(roleService.getRoleByRoleName(roleName), HttpStatus.OK);
+    }
 
     @SecurityRequirement(name = "Authorization")
     @PostMapping
