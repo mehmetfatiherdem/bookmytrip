@@ -29,4 +29,9 @@ public class BusTripController {
     public GenericResponse<List<BusTripResponse>> getAllBusTrips() {
         return GenericResponse.success(busTripService.getAllBusTrips(), HttpStatus.OK);
     }
+
+    @GetMapping("/{busTripNumber}")
+    public GenericResponse<BusTripResponse> getBusTripByTripNumber(@PathVariable String busTripNumber) {
+        return GenericResponse.success(busTripService.getBusTripByTripNumber(busTripNumber), HttpStatus.OK);
+    }
 }

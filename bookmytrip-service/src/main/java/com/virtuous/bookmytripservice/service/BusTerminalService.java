@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,16 @@ import java.util.UUID;
 public class BusTerminalService {
 
     private final BusTerminalRepository busTerminalRepository;
+
+    public BusTerminalResponse getBusTerminalById(String id) {
+        var busTerminal = findBusTerminalById(UUID.fromString(id));
+        return BusTerminalConverter.toResponse(busTerminal);
+    }
+
+    public List<BusTerminalResponse> getAllBusTerminals() {
+        var busTerminals = busTerminalRepository.findAll();
+        return BusTerminalConverter.toResponse(busTerminals);
+    }
 
     public BusTerminalResponse createBusTerminal(BusTerminalSaveRequest request) {
         BusTerminal busTerminal = new BusTerminal();

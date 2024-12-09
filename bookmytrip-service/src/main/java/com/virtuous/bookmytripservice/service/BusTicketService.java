@@ -34,10 +34,20 @@ public class BusTicketService {
     private final TripService tripService;
     private final PassengerService passengerService;
 
+    public BusTicketResponse getBusTicketById(String id) {
+        var busTicket = findBusTicketById(UUID.fromString(id));
+        return BusTicketConverter.toResponse(busTicket);
+    }
+
+    public List<BusTicketResponse> getAllBusTickets() {
+        var busTickets = busTicketRepository.findAll();
+        return BusTicketConverter.toResponse(busTickets);
+    }
+
     public BusTicketResponse createBusTicket(BusTicketSaveRequest request) {
 
         var busSeat = busSeatService.getBusSeatById(request.getBusSeatId());
-        var trip = tripService.getTripById(request.getTripId());
+        var trip = tripService.findTripById(UUID.fromString(request.getTripId()));
 
         BusTicket busTicket = new BusTicket();
         busTicket.setStatus(TicketStatus.valueOf(request.getTicketStatus()));
@@ -57,7 +67,7 @@ public class BusTicketService {
 
         for (BusTicketBookingRequest request: requests) {
             String userId = jwtUtil.extractUserId(jwtUtil.extractJwtFromHeader());
-            BusTicket busTicket = getBusTicketById(request.getBusTicketId());
+            BusTicket busTicket = findBusTicketById(UUID.fromString(request.getBusTicketId()));
 
             if (!(busTicket.getStatus() == TicketStatus.AVAILABLE)) throw new BookMyTripException(ExceptionMessages.TICKET_ALREADY_BOOKED);
 
@@ -78,8 +88,8 @@ public class BusTicketService {
         return BusTicketConverter.toResponse(busTickets);
     }
 
-    public BusTicket getBusTicketById(String busTicketId) {
-        var busTicket = busTicketRepository.findById(UUID.fromString(busTicketId));
+    public BusTicket findBusTicketById(UUID busTicketId) {
+        var busTicket = busTicketRepository.findById(busTicketId);
         if (busTicket.isEmpty()) throw new BookMyTripException(ExceptionMessages.BUS_TICKET_NOT_FOUND);
         return busTicket.get();
     }

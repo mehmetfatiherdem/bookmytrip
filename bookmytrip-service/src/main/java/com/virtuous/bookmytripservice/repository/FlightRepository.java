@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface FlightRepository extends JpaRepository<Flight, UUID> {
@@ -20,6 +21,6 @@ public interface FlightRepository extends JpaRepository<Flight, UUID> {
             @Param("arrivalAirport") Airport arrivalAirport,
             @Param("departureDate") ZonedDateTime departureDate);
 
-
+    Optional<Flight> findFlightByFlightNumber(String flightNumber);
 
 }

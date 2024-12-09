@@ -8,10 +8,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/planes")
@@ -19,6 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlaneController {
 
     private final PlaneService planeService;
+
+    @GetMapping
+    public GenericResponse<List<PlaneResponse>> getAllPlanes() {
+        return GenericResponse.success(planeService.getAllPlanes(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{planeId}")
+    public GenericResponse<PlaneResponse> getAllPlanes(@PathVariable String planeId) {
+        return GenericResponse.success(planeService.getPlaneById(planeId), HttpStatus.OK);
+    }
 
     @SecurityRequirement(name = "Authorization")
     @PostMapping

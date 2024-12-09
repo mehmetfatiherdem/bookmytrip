@@ -25,6 +25,11 @@ public class TripController {
         return GenericResponse.success(tripService.getAllTrips(), HttpStatus.OK);
     }
 
+    @GetMapping("/{tripId}")
+    public GenericResponse<TripResponse> getTripById(@PathVariable String tripId) {
+        return GenericResponse.success(tripService.getTripById(tripId), HttpStatus.OK);
+    }
+
     @GetMapping("/departure/{departure}/arrival/{arrival}")
     public GenericResponse<List<TripResponse>> getTripsByDepartureAndDestination(@PathVariable String departure, @PathVariable String arrival) {
         return GenericResponse.success(tripService.getTripsByDestinationAndArrival(departure, arrival), HttpStatus.OK);

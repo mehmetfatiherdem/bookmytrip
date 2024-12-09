@@ -3,6 +3,8 @@ package com.virtuous.bookmytripservice.service;
 import com.virtuous.bookmytripservice.converter.FlightConverter;
 import com.virtuous.bookmytripservice.dto.request.FlightSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.FlightResponse;
+import com.virtuous.bookmytripservice.exception.BookMyTripException;
+import com.virtuous.bookmytripservice.exception.ExceptionMessages;
 import com.virtuous.bookmytripservice.model.Airport;
 import com.virtuous.bookmytripservice.model.Flight;
 import com.virtuous.bookmytripservice.model.enums.TripStatus;
@@ -26,6 +28,16 @@ public class FlightService {
     private final PlaneService planeService;
     private final AirlineService airlineService;
     private final AirportService airportService;
+
+    public FlightResponse getFlightByFlightNumber(String flightNumber) {
+        var flight = findFlightByFlightNumber(flightNumber);
+        return FlightConverter.toResponse(flight);
+    }
+
+    public List<FlightResponse> getAllFlights() {
+        var flights = flightRepository.findAll();
+        return FlightConverter.toResponse(flights);
+    }
 
     public FlightResponse createFlight(FlightSaveRequest request) {
 
@@ -60,5 +72,11 @@ public class FlightService {
         ZonedDateTime departureDateTime = date.atStartOfDay(departureZoneId);
 
         return FlightConverter.toResponse(flightRepository.findFlightsByDepartureAirportAndArrivalAirportAndDepartureTimeDate(departureAirport, arrivalAirport, departureDateTime));
+    }
+
+    public Flight findFlightByFlightNumber(String flightNumber) {
+        var flight = flightRepository.findFlightByFlightNumber(flightNumber);
+        if (flight.isEmpty()) throw new BookMyTripException(ExceptionMessages.FLIGHT_NOT_FOUND);
+        return flight.get();
     }
 }

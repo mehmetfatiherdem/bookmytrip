@@ -20,6 +20,16 @@ public class BusTicketController {
 
     private final BusTicketService busTicketService;
 
+    @GetMapping
+    public GenericResponse<List<BusTicketResponse>> getAllBusTickets() {
+        return GenericResponse.success(busTicketService.getAllBusTickets(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{busTicketId}")
+    public GenericResponse<BusTicketResponse> getBusTicketById(@PathVariable String busTicketId) {
+        return GenericResponse.success(busTicketService.getBusTicketById(busTicketId), HttpStatus.OK);
+    }
+
     @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<BusTicketResponse> createBusTicket(@Valid @RequestBody BusTicketSaveRequest request) {

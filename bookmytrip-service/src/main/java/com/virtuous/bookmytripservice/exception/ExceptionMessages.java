@@ -17,8 +17,11 @@ public class ExceptionMessages {
     public static final String BUS_SEAT_NOT_FOUND = "Bus seat not found";
     public static final String AUTH_NOT_FOUND = "Authentication not found";
     public static final String PASSENGER_NOT_FOUND = "Passenger not found";
+    public static final String TICKET_NOT_FOUND = "Ticket not found";
     public static final String FLIGHT_TICKET_NOT_FOUND = "Flight ticket not found";
     public static final String BUS_TICKET_NOT_FOUND = "Bus ticket not found";
     public static final String TICKET_ALREADY_BOOKED = "Ticket already booked";
+    public static final String BUS_TRIP_NOT_FOUND = "Bus trip not found";
+    public static final String FLIGHT_NOT_FOUND = "Flight not found";
 
 }

@@ -10,13 +10,14 @@ import java.util.List;
 public class BusConverter {
     public static BusResponse toResponse(Bus bus) {
         return BusResponse.builder()
+                .id(bus.getId().toString())
                 .brand(bus.getBrand())
                 .model(bus.getModel())
                 .build();
 
     }
 
-    public List<BusResponse> toResponse(List<Bus> buses) {
+    public static List<BusResponse> toResponse(List<Bus> buses) {
         return buses
                 .stream()
                 .map(BusConverter::toResponse)

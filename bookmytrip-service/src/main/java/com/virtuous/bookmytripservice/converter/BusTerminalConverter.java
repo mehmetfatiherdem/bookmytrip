@@ -12,6 +12,7 @@ public class BusTerminalConverter {
 
     public static BusTerminalResponse toResponse(BusTerminal busTerminal) {
         return BusTerminalResponse.builder()
+                .id(busTerminal.getId().toString())
                 .name(busTerminal.getName())
                 .city(busTerminal.getCity())
                 .country(busTerminal.getCountry())
