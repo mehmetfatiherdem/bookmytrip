@@ -96,7 +96,7 @@ To run the application locally:
    ```bash
    docker-compose up --build
 
-4. Swagger UI is available in the following port:
+4. Swagger UI is available in the following URL:
 
    ```bash
    http://localhost:8080
