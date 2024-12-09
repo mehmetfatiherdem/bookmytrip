@@ -21,6 +21,16 @@ public class FlightTicketController {
 
     private final FlightTicketService flightTicketService;
 
+    @GetMapping
+    public GenericResponse<List<FlightTicketResponse>> getAllFlightTickets() {
+        return GenericResponse.success(flightTicketService.getAllFlightTickets(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{flightTicketId}")
+    public GenericResponse<FlightTicketResponse> getFlightTicketById(@PathVariable String flightTicketId) {
+        return GenericResponse.success(flightTicketService.getFlightTicketById(flightTicketId), HttpStatus.OK);
+    }
+
     @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<FlightTicketResponse> createFlightTicket(@Valid @RequestBody FlightTicketSaveRequest request) {

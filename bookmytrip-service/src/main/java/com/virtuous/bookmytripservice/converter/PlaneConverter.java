@@ -17,7 +17,7 @@ public class PlaneConverter {
                 .build();
     }
 
-    public List<PlaneResponse> toResponse(List<Plane> planes) {
+    public static List<PlaneResponse> toResponse(List<Plane> planes) {
         return planes
                 .stream()
                 .map(PlaneConverter::toResponse)

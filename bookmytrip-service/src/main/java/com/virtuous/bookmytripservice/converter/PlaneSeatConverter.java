@@ -18,7 +18,7 @@ public class PlaneSeatConverter {
                 .build();
     }
 
-    public List<PlaneSeatResponse> toResponse(List<PlaneSeat> planeSeats) {
+    public static List<PlaneSeatResponse> toResponse(List<PlaneSeat> planeSeats) {
         return planeSeats
                 .stream()
                 .map(PlaneSeatConverter::toResponse)

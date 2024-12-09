@@ -21,6 +21,16 @@ public class FlightController {
 
     private final FlightService flightService;
 
+    @GetMapping
+    public GenericResponse<List<FlightResponse>> getAllFlights() {
+        return GenericResponse.success(flightService.getAllFlights(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{flightNumber}")
+    public GenericResponse<FlightResponse> getFlightByFlightNumber(@PathVariable String flightNumber) {
+        return GenericResponse.success(flightService.getFlightByFlightNumber(flightNumber), HttpStatus.OK);
+    }
+
     @SecurityRequirement(name = "Authorization")
     @PostMapping
     public GenericResponse<FlightResponse> createFlight(@Valid @RequestBody FlightSaveRequest request) {

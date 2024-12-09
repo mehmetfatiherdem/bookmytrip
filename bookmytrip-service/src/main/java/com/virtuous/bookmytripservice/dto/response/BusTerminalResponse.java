@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class BusTerminalResponse implements Serializable {
+    private String id;
     private String name;
     private String city;
     private String country;

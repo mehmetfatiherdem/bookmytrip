@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +21,11 @@ import java.util.UUID;
 public class TripService {
 
     private final TripRepository tripRepository;
+
+    public TripResponse getTripById(String tripId) {
+        var trip = findTripById(UUID.fromString(tripId));
+        return TripConverter.toResponse(trip);
+    }
 
     public TripResponse updateTripStatus(String tripId, TripStatusUpdateRequest request) {
         var tripFound = tripRepository.findById(UUID.fromString(tripId));
@@ -48,8 +52,8 @@ public class TripService {
         return TripConverter.toResponse(trips);
     }
 
-    public Trip getTripById(String id) {
-        var tripFound = tripRepository.findById(UUID.fromString(id));
+    public Trip findTripById(UUID id) {
+        var tripFound = tripRepository.findById(id);
         if (tripFound.isEmpty()) throw new BookMyTripException(ExceptionMessages.TRIP_NOT_FOUND);
         return tripFound.get();
     }

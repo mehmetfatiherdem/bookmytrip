@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,6 +21,16 @@ import java.util.UUID;
 public class PlaneService {
 
     private final PlaneRepository planeRepository;
+
+    public List<PlaneResponse> getAllPlanes() {
+        var planes = planeRepository.findAll();
+        return PlaneConverter.toResponse(planes);
+    }
+
+    public PlaneResponse getPlaneById(String planeId) {
+        var plane = findPlaneById(UUID.fromString(planeId));
+        return PlaneConverter.toResponse(plane);
+    }
 
     public PlaneResponse createPlane(PlaneSaveRequest request) {
         Plane plane = new Plane();

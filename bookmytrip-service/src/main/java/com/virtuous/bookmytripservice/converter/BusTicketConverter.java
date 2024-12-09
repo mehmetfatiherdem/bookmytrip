@@ -11,6 +11,7 @@ import java.util.List;
 public class BusTicketConverter {
     public static BusTicketResponse toResponse(BusTicket busTicket) {
         return BusTicketResponse.builder()
+                .id(busTicket.getId().toString())
                 .trip(TripConverter.toResponse(busTicket.getTrip()))
                 .price(busTicket.getPrice())
                 .busSeat(BusSeatConverter.toResponse(busTicket.getBusSeat()))

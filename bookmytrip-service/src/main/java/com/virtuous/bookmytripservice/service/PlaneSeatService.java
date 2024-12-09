@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,16 @@ import java.util.UUID;
 public class PlaneSeatService {
 
     private final PlaneSeatRepository planeSeatRepository;
+
+    public PlaneSeatResponse getPlaneSeatById(String planeSeatId) {
+        var planeSeat = findPlaneSeatById(UUID.fromString(planeSeatId));
+        return PlaneSeatConverter.toResponse(planeSeat);
+    }
+
+    public List<PlaneSeatResponse> getAllPlaneSeats() {
+        var planeSeats = planeSeatRepository.findAll();
+        return PlaneSeatConverter.toResponse(planeSeats);
+    }
 
     public PlaneSeatResponse createPlaneSeat(PlaneSeatSaveRequest request) {
         PlaneSeat planeSeat = new PlaneSeat();
@@ -33,8 +44,8 @@ public class PlaneSeatService {
         return PlaneSeatConverter.toResponse(planeSeat);
     }
 
-    public PlaneSeat getPlaneSeatById(String id) {
-        var seatFound = planeSeatRepository.findById(UUID.fromString(id));
+    public PlaneSeat findPlaneSeatById(UUID id) {
+        var seatFound = planeSeatRepository.findById(id);
 
         if (seatFound.isEmpty()) throw new BookMyTripException(ExceptionMessages.PLANE_SEAT_NOT_FOUND);
 

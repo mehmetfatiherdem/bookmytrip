@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class BusTicketResponse {
+    private String id;
     private TripResponse trip;
     private String ticketStatus;
     private BigDecimal price;

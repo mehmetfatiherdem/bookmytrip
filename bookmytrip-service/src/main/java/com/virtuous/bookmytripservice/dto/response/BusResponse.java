@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class BusResponse implements Serializable {
+    private String id;
     private String brand;
     private String model;
 

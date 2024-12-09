@@ -35,10 +35,20 @@ public class FlightTicketService {
     private final TripService tripService;
     private final PassengerService passengerService;
 
+    public List<FlightTicketResponse> getAllFlightTickets() {
+        var flightTickets = flightTicketRepository.findAll();
+        return FlightTicketConverter.toResponse(flightTickets);
+    }
+
+    public FlightTicketResponse getFlightTicketById(String flightTicketId) {
+        var flightTicket = findFlightTicketById(UUID.fromString(flightTicketId));
+        return FlightTicketConverter.toResponse(flightTicket);
+    }
+
     public FlightTicketResponse createFlightTicket(FlightTicketSaveRequest request) {
 
-        var planeSeat = planeSeatService.getPlaneSeatById(request.getPlaneSeatId());
-        var trip = tripService.getTripById(request.getTripId());
+        var planeSeat = planeSeatService.findPlaneSeatById(UUID.fromString(request.getPlaneSeatId()));
+        var trip = tripService.findTripById(UUID.fromString(request.getTripId()));
 
         FlightTicket flightTicket = new FlightTicket();
         flightTicket.setStatus(TicketStatus.valueOf(request.getTicketStatus()));
@@ -55,7 +65,7 @@ public class FlightTicketService {
     public FlightTicketResponse bookFlightTicket(String flightTicketId, PassengerSaveRequest passengerSaveRequest) {
 
         String userId = jwtUtil.extractUserId(jwtUtil.extractJwtFromHeader());
-        FlightTicket flightTicket = getFlightTicketById(flightTicketId);
+        FlightTicket flightTicket = findFlightTicketById(UUID.fromString(flightTicketId));
 
         if (!(flightTicket.getStatus() == TicketStatus.AVAILABLE)) throw new BookMyTripException(ExceptionMessages.TICKET_ALREADY_BOOKED);
 
@@ -81,7 +91,7 @@ public class FlightTicketService {
 
         for (FlightTicketBookingRequest request: requests) {
             String userId = jwtUtil.extractUserId(jwtUtil.extractJwtFromHeader());
-            FlightTicket flightTicket = getFlightTicketById(request.getFlightTicketId());
+            FlightTicket flightTicket = findFlightTicketById(UUID.fromString(request.getFlightTicketId()));
 
             if (!(flightTicket.getStatus() == TicketStatus.AVAILABLE)) throw new BookMyTripException(ExceptionMessages.TICKET_ALREADY_BOOKED);
 
@@ -102,8 +112,8 @@ public class FlightTicketService {
         return FlightTicketConverter.toResponse(flightTickets);
     }
 
-    public FlightTicket getFlightTicketById(String flightTicketId) {
-        var ticket = flightTicketRepository.findById(UUID.fromString(flightTicketId));
+    public FlightTicket findFlightTicketById(UUID flightTicketId) {
+        var ticket = flightTicketRepository.findById(flightTicketId);
         if (ticket.isEmpty()) throw new BookMyTripException(ExceptionMessages.FLIGHT_TICKET_NOT_FOUND);
         return ticket.get();
     }
