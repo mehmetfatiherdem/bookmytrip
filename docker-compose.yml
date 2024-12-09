@@ -94,7 +94,9 @@ services:
 
   # services
   bookmytrip-exception-service:
-    build: ./bookmytrip-exception-service
+    build:
+      context: ./bookmytrip-exception-service
+      dockerfile: Dockerfile
     ports:
       - "8097:8097"
     depends_on:
@@ -104,7 +106,9 @@ services:
       - dev
 
   bookmytrip-gw:
-    build: ./bookmytrip-gw
+    build:
+      context: ./bookmytrip-gw
+      dockerfile: Dockerfile
     ports:
       - "9090:9090"
     depends_on:
@@ -138,7 +142,9 @@ services:
 
 
   bookmytrip-notification-service:
-    build: ./bookmytrip-notification-service
+    build:
+      context: ./bookmytrip-notification-service
+      dockerfile: Dockerfile
     ports:
       - "8098:8098"
     depends_on:
@@ -147,7 +153,9 @@ services:
       - dev
 
   bookmytrip-service:
-    build: ./bookmytrip-service
+    build:
+      context: ./bookmytrip-service
+      dockerfile: Dockerfile
     ports:
       - "8088:8088"
     depends_on:
@@ -159,7 +167,9 @@ services:
       - dev
 
   bookmytrip-service-discovery:
-    build: ./bookmytrip-service-discovery
+    build:
+      context: ./bookmytrip-service-discovery
+      dockerfile: Dockerfile
     container_name: bookmytrip-service-discovery
     ports:
       - "8761:8761"
@@ -167,7 +177,9 @@ services:
       - dev
 
   bookmytrip-user-service:
-    build: ./bookmytrip-user-service
+    build:
+      context: ./bookmytrip-user-service
+      dockerfile: Dockerfile
     ports:
       - "8089:8089"
     depends_on:
