@@ -89,20 +89,17 @@ To run the application locally:
    git clone https://github.com/mehmetfatiherdem/BookMyTrip.git
    cd BookMyTrip
 
-2. Build each microservice: Navigate to the directory of each microservice and run the following command:
+2. Add the .env variables and application.properties variables
 
-   ```bash
-   mvn clean package
-
-3. Navigate back to the root directory of the project and run the following command:
+3. Run the following command:
    
    ```bash
    docker-compose up --build
 
-4. Access the application through the Nginx reverse proxy at:
+4. Swagger UI is available in the following port:
 
    ```bash
-   http://localhost
+   http://localhost:8080
 ---
 
 ## Troubleshooting
