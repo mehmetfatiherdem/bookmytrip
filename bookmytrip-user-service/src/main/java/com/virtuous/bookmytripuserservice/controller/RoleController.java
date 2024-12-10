@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripuserservice.controller;
 
+import com.virtuous.bookmytripuserservice.dto.request.RolePartialUpdateRequest;
 import com.virtuous.bookmytripuserservice.dto.request.RoleSaveRequest;
 import com.virtuous.bookmytripuserservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripuserservice.dto.response.RoleResponse;
@@ -35,5 +36,17 @@ public class RoleController {
     @PostMapping
     public GenericResponse<RoleResponse> createRole(@Valid @RequestBody RoleSaveRequest request) {
         return GenericResponse.success(roleService.createRole(request), HttpStatus.CREATED);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{roleName}")
+    public GenericResponse<RoleResponse> partialUpdateRoleByRoleName(@PathVariable String roleName, @Valid @RequestBody RolePartialUpdateRequest request) {
+        return GenericResponse.success(roleService.partialUpdateRoleByRoleName(roleName, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{roleName}")
+    public GenericResponse<RoleResponse> updateRoleByRoleName(@PathVariable String roleName, @Valid @RequestBody RoleSaveRequest request) {
+        return GenericResponse.success(roleService.updateRoleByRoleName(roleName, request), HttpStatus.OK);
     }
 }

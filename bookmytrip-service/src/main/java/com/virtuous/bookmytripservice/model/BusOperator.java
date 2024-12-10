@@ -27,4 +27,8 @@ public class BusOperator extends Auditable {
 
     @OneToMany(mappedBy = "busOperator")
     private Set<BusTrip> busTrips;
+
+    public void setName(String name) {
+        this.name = name.toUpperCase();
+    }
 }

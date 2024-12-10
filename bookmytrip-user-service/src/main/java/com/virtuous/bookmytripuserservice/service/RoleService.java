@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripuserservice.service;
 
 import com.virtuous.bookmytripuserservice.converter.RoleConverter;
+import com.virtuous.bookmytripuserservice.dto.request.RolePartialUpdateRequest;
 import com.virtuous.bookmytripuserservice.dto.request.RoleSaveRequest;
 import com.virtuous.bookmytripuserservice.dto.response.RoleResponse;
 import com.virtuous.bookmytripuserservice.exception.BookMyTripException;
@@ -22,6 +23,22 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
+    public RoleResponse partialUpdateRoleByRoleName(String roleName, RolePartialUpdateRequest request) {
+        var role = findRoleByRoleName(RoleName.valueOf(roleName.toUpperCase()));
+        if(request.getName().isPresent()) {
+            role.setName(RoleName.valueOf(request.getName().get().toUpperCase()));
+        }
+        roleRepository.save(role);
+        return RoleConverter.toResponse(role);
+    }
+
+    public RoleResponse updateRoleByRoleName(String roleName, RoleSaveRequest request) {
+        var role = findRoleByRoleName(RoleName.valueOf(roleName.toUpperCase()));
+        role.setName(RoleName.valueOf(request.getName().toUpperCase()));
+        roleRepository.save(role);
+        return RoleConverter.toResponse(role);
+    }
+
     public RoleResponse getRoleByRoleName(String roleName) {
         var role = findRoleByRoleName(RoleName.valueOf(roleName.toUpperCase()));
         return RoleConverter.toResponse(role);
@@ -34,7 +51,7 @@ public class RoleService {
 
     public RoleResponse createRole(RoleSaveRequest request) {
         Role role = new Role();
-        role.setName(RoleName.valueOf(request.getName()));
+        role.setName(RoleName.valueOf(request.getName().toUpperCase()));
 
         roleRepository.save(role);
 
