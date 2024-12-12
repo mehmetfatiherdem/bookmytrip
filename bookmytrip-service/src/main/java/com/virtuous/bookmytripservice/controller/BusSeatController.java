@@ -26,13 +26,13 @@ public class BusSeatController {
 
     @SecurityRequirement(name = "Authorization")
     @PatchMapping("/{busSeatId}")
-    public GenericResponse<BusSeatResponse> partialUpdateBusSeatById(@PathVariable String busSeatId, @RequestBody BusSeatPartialUpdateRequest request) {
+    public GenericResponse<BusSeatResponse> partialUpdateBusSeatById(@PathVariable String busSeatId, @Valid @RequestBody BusSeatPartialUpdateRequest request) {
         return GenericResponse.success(busSeatService.partialUpdateBusSeatById(busSeatId, request), HttpStatus.OK);
     }
 
     @SecurityRequirement(name = "Authorization")
     @PutMapping("/{busSeatId}")
-    public GenericResponse<BusSeatResponse> updateBusSeatById(@PathVariable String busSeatId, @RequestBody BusSeatSaveRequest request) {
+    public GenericResponse<BusSeatResponse> updateBusSeatById(@PathVariable String busSeatId, @Valid @RequestBody BusSeatSaveRequest request) {
         return GenericResponse.success(busSeatService.updateBusSeatById(busSeatId, request), HttpStatus.OK);
     }
 }

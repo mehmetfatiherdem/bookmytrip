@@ -1,24 +1,25 @@
 package com.virtuous.bookmytripservice.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.virtuous.bookmytripservice.validation.AtLeastOneNonEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class PlaneSaveRequest {
-    @NotBlank(message = "Plane brand required")
+@AtLeastOneNonEmpty(
+        fields = {"brand", "model"},
+        message = "At least one of 'brand' or 'model' must be non-empty"
+)
+public class PlanePartialUpdateRequest {
     @Size(max = 255, message = "Plane brand can't be more than 255 characters")
-    private String brand;
-    @NotBlank(message = "Plane model required")
+    private Optional<String> brand;
     @Size(max = 255, message = "Plane model can't be more than 255 characters")
-    private String model;
-
+    private Optional<String> model;
 }

@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.PlaneSeatConverter;
+import com.virtuous.bookmytripservice.dto.request.PlaneSeatPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.PlaneSeatSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.PlaneSeatResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
@@ -22,6 +23,30 @@ import java.util.UUID;
 public class PlaneSeatService {
 
     private final PlaneSeatRepository planeSeatRepository;
+
+    public PlaneSeatResponse partialUpdatePlaneSeatById(String planeSeatId, PlaneSeatPartialUpdateRequest request){
+        var planeSeat = findPlaneSeatById(UUID.fromString(planeSeatId));
+
+        if(request.getNumber().isPresent()) planeSeat.setNumber(request.getNumber().get());
+        if(request.getLetter().isPresent()) planeSeat.setLetter(Letter.valueOf(request.getLetter().get()));
+        if(request.getPlaneSeatClass().isPresent()) planeSeat.setPlaneSeatClass(PlaneSeatClass.valueOf(request.getPlaneSeatClass().get()));
+
+        planeSeatRepository.save(planeSeat);
+
+        return PlaneSeatConverter.toResponse(planeSeat);
+    }
+
+    public PlaneSeatResponse updatePlaneSeatById(String planeSeatId, PlaneSeatSaveRequest request) {
+        var planeSeat = findPlaneSeatById(UUID.fromString(planeSeatId));
+
+        planeSeat.setNumber(request.getNumber());
+        planeSeat.setLetter(Letter.valueOf(request.getLetter()));
+        planeSeat.setPlaneSeatClass(PlaneSeatClass.valueOf(request.getPlaneSeatClass()));
+
+        planeSeatRepository.save(planeSeat);
+
+        return PlaneSeatConverter.toResponse(planeSeat);
+    }
 
     public PlaneSeatResponse getPlaneSeatById(String planeSeatId) {
         var planeSeat = findPlaneSeatById(UUID.fromString(planeSeatId));

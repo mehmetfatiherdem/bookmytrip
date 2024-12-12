@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
+import com.virtuous.bookmytripservice.dto.request.BusTripPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusTripSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTripResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
@@ -33,5 +34,17 @@ public class BusTripController {
     @GetMapping("/{busTripNumber}")
     public GenericResponse<BusTripResponse> getBusTripByTripNumber(@PathVariable String busTripNumber) {
         return GenericResponse.success(busTripService.getBusTripByTripNumber(busTripNumber), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{busTripNumber}")
+    public GenericResponse<BusTripResponse> partialUpdateBusTripByTripNumber(@PathVariable String busTripNumber, @Valid @RequestBody BusTripPartialUpdateRequest request) {
+        return GenericResponse.success(busTripService.partialUpdateBusTripByTripNumber(busTripNumber, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{busTripNumber}")
+    public GenericResponse<BusTripResponse> updateBusTripByTripNumber(@PathVariable String busTripNumber, @Valid @RequestBody BusTripSaveRequest request) {
+        return GenericResponse.success(busTripService.updateBusTripByTripNumber(busTripNumber, request), HttpStatus.OK);
     }
 }

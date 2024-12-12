@@ -1,9 +1,7 @@
 package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.FlightTicketConverter;
-import com.virtuous.bookmytripservice.dto.request.FlightTicketBookingRequest;
-import com.virtuous.bookmytripservice.dto.request.FlightTicketSaveRequest;
-import com.virtuous.bookmytripservice.dto.request.PassengerSaveRequest;
+import com.virtuous.bookmytripservice.dto.request.*;
 import com.virtuous.bookmytripservice.dto.response.FlightTicketResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
 import com.virtuous.bookmytripservice.exception.ExceptionMessages;
@@ -34,6 +32,39 @@ public class FlightTicketService {
     private final PlaneSeatService planeSeatService;
     private final TripService tripService;
     private final PassengerService passengerService;
+
+
+    public FlightTicketResponse partialUpdateFlightTicketByFlightTicketId(String flightTicketId, FlightTicketPartialUpdateRequest request) {
+        var flightTicket = findFlightTicketById(UUID.fromString(flightTicketId));
+
+        if(request.getTicketStatus().isPresent()) flightTicket.setStatus(TicketStatus.valueOf(request.getTicketStatus().get()));
+        if(request.getPrice().isPresent()) flightTicket.setPrice(request.getPrice().get());
+        if(request.getPlaneSeatId().isPresent()) {
+            var planeSeat = planeSeatService.findPlaneSeatById(UUID.fromString(request.getPlaneSeatId().get()));
+            flightTicket.setPlaneSeat(planeSeat);
+        }
+        if(request.getTripId().isPresent()) {
+            var trip = tripService.findTripById(UUID.fromString(request.getTripId().get()));
+            flightTicket.setTrip(trip);
+        }
+
+        flightTicketRepository.save(flightTicket);
+        return FlightTicketConverter.toResponse(flightTicket);
+    }
+
+    public FlightTicketResponse updateFlightTicketByFlightTicketId(String flightTicketId, FlightTicketSaveRequest request) {
+        var flightTicket = findFlightTicketById(UUID.fromString(flightTicketId));
+        var planeSeat = planeSeatService.findPlaneSeatById(UUID.fromString(request.getPlaneSeatId()));
+        var trip = tripService.findTripById(UUID.fromString(request.getTripId()));
+
+        flightTicket.setStatus(TicketStatus.valueOf(request.getTicketStatus()));
+        flightTicket.setPrice(request.getPrice());
+        flightTicket.setPlaneSeat(planeSeat);
+        flightTicket.setTrip(trip);
+
+        flightTicketRepository.save(flightTicket);
+        return FlightTicketConverter.toResponse(flightTicket);
+    }
 
     public List<FlightTicketResponse> getAllFlightTickets() {
         var flightTickets = flightTicketRepository.findAll();

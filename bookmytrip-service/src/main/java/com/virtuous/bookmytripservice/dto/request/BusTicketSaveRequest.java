@@ -17,7 +17,7 @@ public class BusTicketSaveRequest {
     @Size(min = 36, max = 36, message = "Trip ID must be 36 characters long UUID")
     private String tripId;
     @NotBlank(message = "Ticket status required")
-    @Size(min = 36, max = 36, message = "Ticket status must be 36 characters long UUID")
+    @Size(max = 255, message = "Ticket status can't be more than 255 characters")
     private String ticketStatus;
     @NotNull(message = "Bus ticket price can't be null")
     @PositiveOrZero(message = "Bus ticket price can't be a negative number")

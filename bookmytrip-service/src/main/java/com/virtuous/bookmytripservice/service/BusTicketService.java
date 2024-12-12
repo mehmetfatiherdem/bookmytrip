@@ -2,6 +2,7 @@ package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.BusTicketConverter;
 import com.virtuous.bookmytripservice.dto.request.BusTicketBookingRequest;
+import com.virtuous.bookmytripservice.dto.request.BusTicketPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusTicketSaveRequest;
 import com.virtuous.bookmytripservice.dto.request.PassengerSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTicketResponse;
@@ -33,6 +34,27 @@ public class BusTicketService {
     private final BusSeatService busSeatService;
     private final TripService tripService;
     private final PassengerService passengerService;
+
+
+    public BusTicketResponse partialUpdateBusTicketById(String busTicketId, BusTicketPartialUpdateRequest request) {
+        var ticket = findBusTicketById(UUID.fromString(busTicketId));
+        if(request.getTicketStatus().isPresent()) ticket.setStatus(TicketStatus.valueOf(request.getTicketStatus().get()));
+        if(request.getPrice().isPresent()) ticket.setPrice(request.getPrice().get());
+        busTicketRepository.save(ticket);
+        return BusTicketConverter.toResponse(ticket);
+    }
+
+    public BusTicketResponse updateBusTicketById(String busTicketId, BusTicketSaveRequest request) {
+        var busSeat = busSeatService.findBusSeatById(UUID.fromString(request.getBusSeatId()));
+        var trip = tripService.findTripById(UUID.fromString(request.getTripId()));
+        var ticket = findBusTicketById(UUID.fromString(busTicketId));
+        ticket.setStatus(TicketStatus.valueOf(request.getTicketStatus()));
+        ticket.setPrice(request.getPrice());
+        ticket.setBusSeat(busSeat);
+        ticket.setTrip(trip);
+        busTicketRepository.save(ticket);
+        return BusTicketConverter.toResponse(ticket);
+    }
 
     public BusTicketResponse getBusTicketById(String id) {
         var busTicket = findBusTicketById(UUID.fromString(id));

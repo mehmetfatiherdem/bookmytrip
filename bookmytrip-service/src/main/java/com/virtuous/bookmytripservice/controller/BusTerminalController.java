@@ -38,13 +38,13 @@ public class BusTerminalController {
 
     @SecurityRequirement(name = "Authorization")
     @PatchMapping("/{busTerminalId}")
-    public GenericResponse<BusTerminalResponse> partialUpdateBusTerminalById(@PathVariable String busTerminalId, @RequestBody BusTerminalPartialUpdateRequest request) {
+    public GenericResponse<BusTerminalResponse> partialUpdateBusTerminalById(@PathVariable String busTerminalId, @Valid @RequestBody BusTerminalPartialUpdateRequest request) {
         return GenericResponse.success(busTerminalService.partialUpdateBusTerminalById(busTerminalId, request), HttpStatus.OK);
     }
 
     @SecurityRequirement(name = "Authorization")
     @PutMapping("/{busTerminalId}")
-    public GenericResponse<BusTerminalResponse> updateBusTerminalById(@PathVariable String busTerminalId, @RequestBody BusTerminalSaveRequest request) {
+    public GenericResponse<BusTerminalResponse> updateBusTerminalById(@PathVariable String busTerminalId, @Valid @RequestBody BusTerminalSaveRequest request) {
         return GenericResponse.success(busTerminalService.updateBusTerminalById(busTerminalId, request), HttpStatus.OK);
     }
 }
