@@ -18,12 +18,12 @@ import java.util.Optional;
         message = "At least one of 'name', 'city', 'country', 'timeZone'"
 )
 public class BusTerminalPartialUpdateRequest {
-    @Size(max = 255, message = "Bus terminal name can't be more than 255 characters")
-    private Optional<String> name;
-    @Size(max = 255, message = "Bus terminal city can't be more than 255 characters")
-    private Optional<String> city;
-    @Size(max = 255, message = "Bus terminal country can't be more than 255 characters")
-    private Optional<String> country;
-    @Size(max = 255, message = "Bus terminal time zone can't be more than 255 characters")
-    private Optional<String> timeZone;
+
+    private Optional<@Size(max = 255, message = "Bus terminal name can't be more than 255 characters")String> name;
+
+    private Optional<@Size(max = 255, message = "Bus terminal city can't be more than 255 characters")String> city;
+
+    private Optional<@Size(max = 255, message = "Bus terminal country can't be more than 255 characters")String> country;
+
+    private Optional<@Size(max = 255, message = "Bus terminal time zone can't be more than 255 characters")String> timeZone;
 }

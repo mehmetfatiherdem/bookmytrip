@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = IfExistsSizeValidator.class)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IfExistsSize {
     String message() default "Invalid size: must match the required size if present";

@@ -19,7 +19,7 @@ import java.util.Optional;
         message = "bus seat number must be non-empty"
 )
 public class BusSeatPartialUpdateRequest {
-    @Positive(message = "Bus seat number must be a positive number")
-    @DecimalMax(value = "2147483647", message = "Bus seat number can't be more than 2147483647")
-    private Optional<Integer> number;
+
+    private Optional<@Positive(message = "Bus seat number must be a positive number")
+    @DecimalMax(value = "2147483647", message = "Bus seat number can't be more than 2147483647")Integer> number;
 }

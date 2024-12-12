@@ -19,8 +19,7 @@ import java.util.Optional;
         message = "At least one of 'code' or 'name' must be non-empty"
 )
 public class AirlinePartialUpdateRequest {
-    @IfExistsSize(size = 2, message = "Airline code must be 2 characters long")
-    private Optional<String> code;
-    @Size(max = 255, message = "Airline name can't be more than 255 characters")
-    private Optional<String> name;
+    private Optional<@IfExistsSize(size = 2, message = "Airline code must be 2 characters long")String> code;
+
+    private Optional< @Size(max = 255, message = "Airline name can't be more than 255 characters")String> name;
 }

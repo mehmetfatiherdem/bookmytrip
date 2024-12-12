@@ -18,7 +18,7 @@ public class AtLeastOneNonEmptyValidator implements ConstraintValidator<AtLeastO
         try {
             for (String field : fields) {
                 String fieldValue = BeanUtils.getProperty(value, field);
-                if (fieldValue != null && !fieldValue.trim().isEmpty()) {
+                if (fieldValue != null && !fieldValue.trim().isEmpty() && !fieldValue.isEmpty()) {
                     return true;
                 }
             }
