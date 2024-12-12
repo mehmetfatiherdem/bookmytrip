@@ -1,6 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
-import com.virtuous.bookmytripservice.converter.BusTerminalConverter;
+import com.virtuous.bookmytripservice.dto.request.BusTerminalPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusTerminalSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTerminalResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
@@ -34,5 +34,17 @@ public class BusTerminalController {
     @PostMapping
     public GenericResponse<BusTerminalResponse> createBlog(@Valid @RequestBody BusTerminalSaveRequest request) {
         return GenericResponse.success(busTerminalService.createBusTerminal(request), HttpStatus.CREATED);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{busTerminalId}")
+    public GenericResponse<BusTerminalResponse> partialUpdateBusTerminalById(@PathVariable String busTerminalId, @RequestBody BusTerminalPartialUpdateRequest request) {
+        return GenericResponse.success(busTerminalService.partialUpdateBusTerminalById(busTerminalId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{busTerminalId}")
+    public GenericResponse<BusTerminalResponse> updateBusTerminalById(@PathVariable String busTerminalId, @RequestBody BusTerminalSaveRequest request) {
+        return GenericResponse.success(busTerminalService.updateBusTerminalById(busTerminalId, request), HttpStatus.OK);
     }
 }

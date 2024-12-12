@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.BusSeatConverter;
+import com.virtuous.bookmytripservice.dto.request.BusSeatPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusSeatSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusSeatResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
@@ -20,6 +21,21 @@ public class BusSeatService {
 
     private final BusSeatRepository busSeatRepository;
 
+    public BusSeatResponse partialUpdateBusSeatById(String id, BusSeatPartialUpdateRequest request) {
+        var seat = findBusSeatById(UUID.fromString(id));
+        if (request.getNumber().isPresent()) seat.setNumber(request.getNumber().get());
+        busSeatRepository.save(seat);
+        return BusSeatConverter.toResponse(seat);
+    }
+
+    public BusSeatResponse updateBusSeatById(String busSeatId, BusSeatSaveRequest request) {
+        var seat = findBusSeatById(UUID.fromString(busSeatId));
+
+        seat.setNumber(request.getNumber());
+        busSeatRepository.save(seat);
+        return BusSeatConverter.toResponse(seat);
+    }
+
     public BusSeatResponse createBusSeat(BusSeatSaveRequest request) {
         BusSeat busSeat = new BusSeat();
         busSeat.setNumber(request.getNumber());
@@ -29,8 +45,8 @@ public class BusSeatService {
         return BusSeatConverter.toResponse(busSeat);
     }
 
-    public BusSeat getBusSeatById(String busSeatId) {
-        var busSeat = busSeatRepository.findById(UUID.fromString(busSeatId));
+    public BusSeat findBusSeatById(UUID busSeatId) {
+        var busSeat = busSeatRepository.findById(busSeatId);
 
         if (busSeat.isEmpty()) throw new BookMyTripException(ExceptionMessages.BUS_SEAT_NOT_FOUND);
 

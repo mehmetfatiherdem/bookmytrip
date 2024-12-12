@@ -36,7 +36,7 @@ public class BusTripService {
         var departureBusTerminal = busTerminalService.findBusTerminalById(request.getDepartureBusTerminalId());
         var arrivalBusTerminal = busTerminalService.findBusTerminalById(request.getArrivalBusTerminalId());
         var busOperator = busOperatorService.findBusOperatorById(request.getBusOperatorId());
-        var bus = busService.findBusById(request.getBusId());
+        var bus = busService.findBusById(UUID.fromString(request.getBusId()));
 
         BusTrip busTrip = new BusTrip();
         busTrip.setTripNumber(request.getTripNumber());

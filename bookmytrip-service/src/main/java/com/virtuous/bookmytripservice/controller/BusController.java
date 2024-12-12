@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
+import com.virtuous.bookmytripservice.dto.request.BusPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
@@ -33,5 +34,17 @@ public class BusController {
     @PostMapping
     public GenericResponse<BusResponse> createBus(@Valid @RequestBody BusSaveRequest request) {
         return GenericResponse.success(busService.createBus(request), HttpStatus.CREATED);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{busId}")
+    public GenericResponse<BusResponse> partialUpdateBusById(@PathVariable String busId, @RequestBody BusPartialUpdateRequest request) {
+        return GenericResponse.success(busService.partialUpdateBusById(busId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{busId}")
+    public GenericResponse<BusResponse> updateBusById(@PathVariable String busId, @RequestBody BusSaveRequest request) {
+        return GenericResponse.success(busService.updateBusById(busId, request), HttpStatus.OK);
     }
 }

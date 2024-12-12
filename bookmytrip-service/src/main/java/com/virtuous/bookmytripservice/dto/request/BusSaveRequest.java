@@ -19,7 +19,7 @@ public class BusSaveRequest {
     @Size(max = 255, message = "Bus brand can't be more than 255 characters")
     private String brand;
     @NotBlank(message = "Bus model required")
-    @Size(max = 255, message = "Bus brand can't be more than 255 characters")
+    @Size(max = 255, message = "Bus model can't be more than 255 characters")
     private String model;
 
 }

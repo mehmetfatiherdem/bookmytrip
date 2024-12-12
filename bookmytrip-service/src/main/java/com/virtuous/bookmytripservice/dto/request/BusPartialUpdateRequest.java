@@ -14,10 +14,12 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @AtLeastOneNonEmpty(
-        fields = {"name"},
-        message = "'name' must be non-empty"
+        fields = {"brand", "model"},
+        message = "At least one of 'brand' or 'model' must be non-empty"
 )
-public class BusOperatorPartialUpdateRequest {
-    @Size(max = 255, message = "Bus operator name can't be more than 255 characters")
-    private Optional<String> name;
+public class BusPartialUpdateRequest {
+    @Size(max = 255, message = "Bus brand can't be more than 255 characters")
+    private Optional<String> brand;
+    @Size(max = 255, message = "Bus model can't be more than 255 characters")
+    private Optional<String> model;
 }

@@ -46,7 +46,7 @@ public class BusTicketService {
 
     public BusTicketResponse createBusTicket(BusTicketSaveRequest request) {
 
-        var busSeat = busSeatService.getBusSeatById(request.getBusSeatId());
+        var busSeat = busSeatService.findBusSeatById(UUID.fromString(request.getBusSeatId()));
         var trip = tripService.findTripById(UUID.fromString(request.getTripId()));
 
         BusTicket busTicket = new BusTicket();
