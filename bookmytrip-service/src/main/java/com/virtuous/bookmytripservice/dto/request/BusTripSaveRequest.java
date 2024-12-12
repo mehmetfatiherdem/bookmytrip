@@ -44,5 +44,5 @@ public class BusTripSaveRequest {
     private UUID busOperatorId;
     @NotBlank(message = "Bus ID required")
     @Size(min = 36, max = 36, message = "Bus ID must be 36 characters long UUID")
-    private UUID busId;
+    private String busId;
 }

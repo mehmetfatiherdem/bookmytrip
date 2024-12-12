@@ -17,6 +17,7 @@ public class FlightTicketSaveRequest {
     @Size(min = 36, max = 36, message = "Trip ID must be 36 characters long UUID")
     private String tripId;
     @NotBlank(message = "Ticket status required")
+    @Size(max = 255, message = "Ticket status can't be more than 255 characters")
     private String ticketStatus;
     @NotNull(message = "Flight ticket price can't be null")
     @PositiveOrZero(message = "Flight ticket price can't be a negative number")

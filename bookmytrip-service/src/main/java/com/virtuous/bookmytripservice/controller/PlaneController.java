@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
+import com.virtuous.bookmytripservice.dto.request.PlanePartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.PlaneSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.dto.response.PlaneResponse;
@@ -33,5 +34,17 @@ public class PlaneController {
     @PostMapping
     public GenericResponse<PlaneResponse> createPlane(@Valid @RequestBody PlaneSaveRequest request) {
         return GenericResponse.success(planeService.createPlane(request), HttpStatus.CREATED);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{planeId}")
+    public GenericResponse<PlaneResponse> partialUpdatePlaneById(@PathVariable String planeId, @Valid @RequestBody PlanePartialUpdateRequest request) {
+        return GenericResponse.success(planeService.partialUpdatePlaneById(planeId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{planeId}")
+    public GenericResponse<PlaneResponse> updatePlaneById(@PathVariable String planeId, @Valid @RequestBody PlaneSaveRequest request) {
+        return GenericResponse.success(planeService.updatePlaneById(planeId, request), HttpStatus.OK);
     }
 }

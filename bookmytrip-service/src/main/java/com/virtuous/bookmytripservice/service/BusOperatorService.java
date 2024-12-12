@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.BusOperatorConverter;
+import com.virtuous.bookmytripservice.dto.request.BusOperatorPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusOperatorSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusOperatorResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
@@ -21,6 +22,24 @@ import java.util.UUID;
 public class BusOperatorService {
 
     private final BusOperatorRepository busOperatorRepository;
+
+    public BusOperatorResponse partialUpdateBusOperatorById(String busOperatorId, BusOperatorPartialUpdateRequest request) {
+        var busOperator = findBusOperatorById(UUID.fromString(busOperatorId));
+
+        if(request.getName().isPresent()) busOperator.setName(request.getName().get());
+
+        busOperatorRepository.save(busOperator);
+        return BusOperatorConverter.toResponse(busOperator);
+    }
+
+    public BusOperatorResponse updateAirlineByAirlineCode(String busOperatorId, BusOperatorSaveRequest request) {
+        var busOperator = findBusOperatorById(UUID.fromString(busOperatorId));
+
+        busOperator.setName(request.getName());
+
+        busOperatorRepository.save(busOperator);
+        return BusOperatorConverter.toResponse(busOperator);
+    }
 
     public BusOperatorResponse getBusOperatorById(String busOperatorId) {
         var busOperator = findBusOperatorById(UUID.fromString(busOperatorId));

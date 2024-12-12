@@ -1,8 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
-import com.virtuous.bookmytripservice.dto.request.FlightTicketBookingRequest;
-import com.virtuous.bookmytripservice.dto.request.FlightTicketSaveRequest;
-import com.virtuous.bookmytripservice.dto.request.PassengerSaveRequest;
+import com.virtuous.bookmytripservice.dto.request.*;
 import com.virtuous.bookmytripservice.dto.response.FlightTicketResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.service.FlightTicketService;
@@ -47,5 +45,17 @@ public class FlightTicketController {
     @PatchMapping("/{flightTicketId}/book")
     public GenericResponse<FlightTicketResponse> bookFlightTicket(@PathVariable String flightTicketId, @Valid @RequestBody PassengerSaveRequest request) {
         return GenericResponse.success(flightTicketService.bookFlightTicket(flightTicketId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{flightTicketId}")
+    public GenericResponse<FlightTicketResponse> partialUpdateFlightTicketByFlightTicketId(@PathVariable String flightTicketId, @RequestBody FlightTicketPartialUpdateRequest request) {
+        return GenericResponse.success(flightTicketService.partialUpdateFlightTicketByFlightTicketId(flightTicketId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{flightTicketId}")
+    public GenericResponse<FlightTicketResponse> updateFlightTicketByFlightTicketId(@PathVariable String flightTicketId, @RequestBody FlightTicketSaveRequest request) {
+        return GenericResponse.success(flightTicketService.updateFlightTicketByFlightTicketId(flightTicketId, request), HttpStatus.OK);
     }
 }

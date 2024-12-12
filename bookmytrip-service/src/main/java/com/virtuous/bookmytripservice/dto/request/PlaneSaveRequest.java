@@ -18,7 +18,7 @@ public class PlaneSaveRequest {
     @Size(max = 255, message = "Plane brand can't be more than 255 characters")
     private String brand;
     @NotBlank(message = "Plane model required")
-    @Size(max = 255, message = "Plane brand can't be more than 255 characters")
+    @Size(max = 255, message = "Plane model can't be more than 255 characters")
     private String model;
 
 }

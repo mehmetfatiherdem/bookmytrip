@@ -27,7 +27,7 @@ public class Role extends Auditable {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private RoleName name;
 
     @ManyToMany(mappedBy = "roles")

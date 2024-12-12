@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripservice.controller;
 
 import com.virtuous.bookmytripservice.dto.request.BusTicketBookingRequest;
+import com.virtuous.bookmytripservice.dto.request.BusTicketPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.BusTicketSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.BusTicketResponse;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
@@ -40,5 +41,17 @@ public class BusTicketController {
     @PatchMapping("/book")
     public GenericResponse<List<BusTicketResponse>> bookBusTickets(@Valid @RequestBody List<BusTicketBookingRequest> requests) {
         return GenericResponse.success(busTicketService.bookBusTickets(requests), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{busTicketId}")
+    public GenericResponse<BusTicketResponse> partialUpdateBusTicketById(@PathVariable String busTicketId, @Valid @RequestBody BusTicketPartialUpdateRequest request) {
+        return GenericResponse.success(busTicketService.partialUpdateBusTicketById(busTicketId, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{busTicketId}")
+    public GenericResponse<BusTicketResponse> updateBusTicketById(@PathVariable String busTicketId, @Valid @RequestBody BusTicketSaveRequest request) {
+        return GenericResponse.success(busTicketService.updateBusTicketById(busTicketId, request), HttpStatus.OK);
     }
 }

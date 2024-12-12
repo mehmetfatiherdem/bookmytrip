@@ -1,6 +1,7 @@
 package com.virtuous.bookmytripservice.service;
 
 import com.virtuous.bookmytripservice.converter.AirlineConverter;
+import com.virtuous.bookmytripservice.dto.request.AirlinePartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.AirlineSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.AirlineResponse;
 import com.virtuous.bookmytripservice.exception.BookMyTripException;
@@ -21,18 +22,38 @@ public class AirlineService {
 
     private final AirlineRepository airlineRepository;
 
+    public AirlineResponse partialUpdateAirlineByAirlineCode(String airlineCode, AirlinePartialUpdateRequest request) {
+        var airline = findAirlineByCode(airlineCode);
+
+        if(request.getCode().isPresent()) airline.setCode(request.getCode().get());
+        if(request.getName().isPresent()) airline.setName(request.getName().get());
+
+        airlineRepository.save(airline);
+        return AirlineConverter.toResponse(airline);
+    }
+
+    public AirlineResponse updateAirlineByAirlineCode(String airlineCode, AirlineSaveRequest request) {
+        var airline = findAirlineByCode(airlineCode);
+
+        airline.setCode(request.getCode());
+        airline.setName(request.getName());
+
+        airlineRepository.save(airline);
+        return AirlineConverter.toResponse(airline);
+    }
+
     public List<AirlineResponse> getAllAirlines() {
         var airlines = airlineRepository.findAll();
         return AirlineConverter.toResponse(airlines);
     }
 
     public AirlineResponse getAirlineByCode(String airlineCode) {
-        var airline = findAirlineByCode(airlineCode.toUpperCase());
+        var airline = findAirlineByCode(airlineCode);
         return AirlineConverter.toResponse(airline);
     }
 
     public Airline findAirlineByCode(String code) {
-        Optional<Airline> airline = airlineRepository.findAirlineByCode(code);
+        Optional<Airline> airline = airlineRepository.findAirlineByCode(code.toUpperCase());
 
         if (airline.isEmpty()) {
             throw new BookMyTripException(ExceptionMessages.AIRLINE_NOT_FOUND);

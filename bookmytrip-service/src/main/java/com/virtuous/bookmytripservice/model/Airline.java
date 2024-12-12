@@ -31,9 +31,11 @@ public class Airline extends Auditable {
     @OneToMany(mappedBy="airline")
     private Set<Flight> flights;
 
-    @PrePersist
-    @PreUpdate
-    public void makeCodeUppercase() {
-        this.code = this.code.toUpperCase();
+    public void setCode(String code) {
+        this.code = code.toUpperCase();
+    }
+
+    public void setName(String name) {
+        this.name = name.toUpperCase();
     }
 }

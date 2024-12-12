@@ -1,5 +1,6 @@
 package com.virtuous.bookmytripservice.controller;
 
+import com.virtuous.bookmytripservice.dto.request.FlightPartialUpdateRequest;
 import com.virtuous.bookmytripservice.dto.request.FlightSaveRequest;
 import com.virtuous.bookmytripservice.dto.response.GenericResponse;
 import com.virtuous.bookmytripservice.dto.response.FlightResponse;
@@ -40,5 +41,17 @@ public class FlightController {
     @GetMapping("/departures/{departureAirportCode}/arrivals/{arrivalAirportCode}/dates/{date}")
     public GenericResponse<List<FlightResponse>> searchFlights(@PathVariable String departureAirportCode, @PathVariable String arrivalAirportCode, @PathVariable LocalDate date) {
         return GenericResponse.success(flightService.searchFlights(departureAirportCode, arrivalAirportCode, date), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PatchMapping("/{flightNumber}")
+    public GenericResponse<FlightResponse> partialUpdateFlightByFlightNumber(@PathVariable String flightNumber, @Valid @RequestBody FlightPartialUpdateRequest request) {
+        return GenericResponse.success(flightService.partialUpdateFlightByFlightNumber(flightNumber, request), HttpStatus.OK);
+    }
+
+    @SecurityRequirement(name = "Authorization")
+    @PutMapping("/{flightNumber}")
+    public GenericResponse<FlightResponse> updateFlightByFlightNumber(@PathVariable String flightNumber, @Valid @RequestBody FlightSaveRequest request) {
+        return GenericResponse.success(flightService.updateFlightByFlightNumber(flightNumber, request), HttpStatus.OK);
     }
 }
