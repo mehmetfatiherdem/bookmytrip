@@ -27,14 +27,7 @@ public class NotificationConsumer {
 
         try {
             NotificationMessage notificationMessage = mapper.readValue(message, NotificationMessage.class);
-
-            switch (routingKey) {
-                case "notification.email":
-                    notificationContext.executeStrategy("email", (EmailMessage)notificationMessage);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown routing key: " + routingKey);
-            }
+            notificationContext.executeStrategy(routingKey, notificationMessage);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

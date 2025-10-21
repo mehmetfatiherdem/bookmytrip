@@ -19,6 +19,7 @@ public class NotificationContext {
             String strategyName = strategy.getClass().getSimpleName().
                     replace("NotificationStrategy", "")
                     .toLowerCase();
+            strategyName = "notification." + strategyName;
             strategyMap.put(strategyName, strategy);
         }
     }
