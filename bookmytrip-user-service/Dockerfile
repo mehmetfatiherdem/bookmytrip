@@ -20,4 +20,17 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8089
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", \
+    "-XX:+UseContainerSupport", \
+    "-XX:MaxRAMPercentage=80.0", \
+    "-XX:+UseSerialGC", \
+    "-XX:MaxMetaspaceSize=90m", \
+    "-XX:ReservedCodeCacheSize=24m", \
+    "-XX:+TieredCompilation", \
+    "-XX:TieredStopAtLevel=1", \
+    "-XX:CICompilerCount=2", \
+    "-Xss256k", \
+    "-XX:InitialCodeCacheSize=16m", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-Djava.awt.headless=true", \
+    "-jar", "app.jar"]

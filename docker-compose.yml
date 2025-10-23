@@ -156,6 +156,11 @@ services:
     build:
       context: ./bookmytrip-service
       dockerfile: Dockerfile
+    mem_limit: 512m
+    mem_reservation: 400m
+    cpus: 0.5
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=1
     ports:
       - "8088:8088"
     depends_on:
@@ -180,6 +185,11 @@ services:
     build:
       context: ./bookmytrip-user-service
       dockerfile: Dockerfile
+    mem_limit: 512m
+    mem_reservation: 400m
+    cpus: 0.5
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=1
     ports:
       - "8089:8089"
     depends_on:
