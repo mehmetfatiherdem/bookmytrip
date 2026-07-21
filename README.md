@@ -1,4 +1,4 @@
-# BookMyTrip
+# BookMyTrip [Unfinished Project]
 
 **BookMyTrip** is a backend application built using a microservices architecture to enable users to search and book flight and bus tickets efficiently. Designed for scalability, reliability, and performance, the system leverages modern technologies and best practices in backend development.
 
@@ -111,4 +111,4 @@ To run the application locally:
 If you would like to discuss how I can bring value to your team, feel free to reach out:
 
 [GitHub](https://github.com/mehmetfatiherdem)
-[LinkedIn](https://linkedin.com/in/matterdem)
+[LinkedIn](https://linkedin.com/in/mehmetferdem)
